@@ -6,16 +6,13 @@ from google import genai
 # === 1. การตั้งค่าหน้าเว็บ ===
 st.set_page_config(page_title="Lenslineup AI Guide", page_icon="📸", layout="centered")
 
-# === 2. ตกแต่ง CSS ธีมร้าน Lenslineup (Premium Dark & Orange/Yellow) ===
+# === 2. ตกแต่ง CSS ธีมร้านแบบ Responsive (รองรับมือถือและคอม) ===
 st.markdown("""
     <style>
     /* นำเข้าฟอนต์ Prompt จาก Google Fonts */
     @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap');
 
-    /* บังคับใช้ฟอนต์ Prompt ทั้งหน้าเว็บ */
-    * {
-        font-family: 'Prompt', sans-serif !important;
-    }
+    * { font-family: 'Prompt', sans-serif !important; }
 
     /* ธีมหลักพื้นหลังแอป */
     .stApp {
@@ -23,24 +20,36 @@ st.markdown("""
         color: #E0E0E0;
     }
     
-    /* ซ่อนเมนูพื้นฐานของ Streamlit ให้ดูเป็นแอปจริงๆ */
-    header {visibility: hidden;}
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
+    /* ซ่อนเมนู Streamlit และปุ่ม Manage app เพื่อให้ดูเป็น Native App */
+    header, #MainMenu, footer, .viewerBadge_container__1QSob { 
+        visibility: hidden !important; 
+        display: none !important; 
+    }
     
-    /* ตกแต่งหัวข้อหลัก (Title) */
+    /* ปรับระยะขอบของหน้าจอให้พอดีกับมือถือ ไม่ให้ชิดขอบเกินไป */
+    .block-container {
+        padding-top: 2rem !important;
+        padding-bottom: 6rem !important;
+        padding-left: 1.2rem !important;
+        padding-right: 1.2rem !important;
+        max-width: 800px;
+    }
+
+    /* ตกแต่งหัวข้อหลักแบบ Responsive (ย่อขนาดอัตโนมัติตามจอ) */
     h1 {
         color: #FFB800 !important;
         text-align: center;
         font-weight: 700;
+        font-size: clamp(1.8rem, 5vw, 2.5rem) !important; /* ปรับขนาดให้เข้ากับจอมือถือ */
+        line-height: 1.2 !important;
         text-shadow: 0px 4px 15px rgba(255, 184, 0, 0.2);
-        padding-bottom: 10px;
+        margin-bottom: 0px;
     }
 
     /* คำอธิบายใต้หัวข้อ */
     .stMarkdown p {
-        font-size: 1.05rem;
-        line-height: 1.6;
+        font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+        line-height: 1.5;
     }
 
     /* กล่องข้อความแชทของผู้ใช้ (User) */
@@ -48,8 +57,8 @@ st.markdown("""
         background-color: #242424;
         border-left: 4px solid #FFB800;
         border-radius: 8px 15px 15px 8px;
-        padding: 15px;
-        margin-bottom: 15px;
+        padding: 12px 15px;
+        margin-bottom: 12px;
         box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
 
@@ -58,8 +67,8 @@ st.markdown("""
         background-color: #1A1A1A;
         border: 1px solid #333333;
         border-radius: 15px 8px 8px 15px;
-        padding: 15px;
-        margin-bottom: 15px;
+        padding: 12px 15px;
+        margin-bottom: 12px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     }
 
@@ -69,19 +78,17 @@ st.markdown("""
         border-radius: 25px !important;
         background-color: #1E1E1E !important;
         padding: 2px 10px;
+        box-shadow: 0 -4px 15px rgba(0,0,0,0.5); /* เพิ่มเงาดรอปด้านบนให้ดูลอยขึ้นมา */
     }
     
-    /* ปรับสีตัวอักษรในช่องแชท */
-    .stChatInputContainer textarea {
-        color: #FFFFFF !important;
-    }
+    .stChatInputContainer textarea { color: #FFFFFF !important; }
     </style>
 """, unsafe_allow_html=True)
 
 # === 3. ส่วนหัวของเว็บแอป ===
-st.title("📸 Lenslineup AI Assistant")
-st.markdown("<p style='text-align: center; color: #AAAAAA;'>ยินดีต้อนรับสู่ผู้ช่วย AI จากร้าน Lenslineup อาคารเอเชีย (ติด BTS ราชเทวี)<br>พิมพ์บอกงาน สเปกที่อยากได้ หรือสไตล์การถ่ายรูปได้เลยครับ!</p>", unsafe_allow_html=True)
-st.divider() # เส้นคั่นสวยๆ
+st.markdown("<h1>📸 Lenslineup AI Assistant</h1>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; color: #AAAAAA; margin-top: 10px;'>ยินดีต้อนรับสู่ผู้ช่วย AI จากร้าน Lenslineup อาคารเอเชีย (ติด BTS ราชเทวี)<br>พิมพ์บอกงาน สเปกที่อยากได้ หรือสไตล์การถ่ายรูปได้เลยครับ!</p>", unsafe_allow_html=True)
+st.divider()
 
 # === 4. ดึง API Key ===
 api_key = st.secrets["GEMINI_API_KEY"]
@@ -121,21 +128,18 @@ system_instruction = f"""
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# แสดงข้อความแชทเดิมพร้อม Avatar ประจำตัว
 for msg in st.session_state.messages:
     avatar_icon = "🧑‍💻" if msg["role"] == "user" else "📸"
     with st.chat_message(msg["role"], avatar=avatar_icon):
         st.markdown(msg["content"])
 
 # === 8. รอรับข้อความใหม่จากผู้ใช้ ===
-if user_input := st.chat_input("พิมพ์บอกงานที่ต้องการนำกล้องไปใช้ หรือสเปก/งบประมาณได้เลย..."):
+if user_input := st.chat_input("พิมพ์บอกงาน หรือสเปก/งบประมาณได้เลย..."):
     
-    # บันทึกข้อความผู้ใช้
     st.session_state.messages.append({"role": "user", "content": user_input})
     with st.chat_message("user", avatar="🧑‍💻"):
         st.markdown(user_input)
 
-    # เรียกใช้งาน Gemini AI พร้อมระบบลองใหม่ (Retry)
     with st.chat_message("assistant", avatar="📸"):
         message_placeholder = st.empty()
         success = False
@@ -162,7 +166,7 @@ if user_input := st.chat_input("พิมพ์บอกงานที่ต้
                 error_str = str(e)
                 if "503" in error_str or "429" in error_str or "RESOURCE_EXHAUSTED" in error_str:
                     if attempt < 2:
-                        message_placeholder.info(f"⏳ เซิร์ฟเวอร์กำลังประมวลผล กรุณารอสักครู่ (กำลังลองใหม่ครั้งที่ {attempt + 1})...")
+                        message_placeholder.info(f"⏳ ระบบกำลังประมวลผล กรุณารอสักครู่ (กำลังลองใหม่ครั้งที่ {attempt + 1})...")
                         time.sleep(3)
                         continue
                 response_text = f"เกิดข้อผิดพลาดในการเชื่อมต่อ: {e}"
