@@ -1,4 +1,5 @@
 import json
+import time
 import streamlit as st
 from google import genai
 
@@ -18,7 +19,7 @@ except FileNotFoundError:
     st.error("ไม่พบไฟล์ 'cameras.json' กรุณาตรวจสอบว่ามีไฟล์นี้อยู่ในโฟลเดอร์เดียวกันกับ app.py")
     st.stop()
 
-# คำสั่งควบคุมพฤติกรรมของ AI (อัปเดตใหม่ให้จัดหน้าสวยงาม)
+# คำสั่งควบคุมพฤติกรรมของ AI
 system_instruction = f"""
 คุณคือผู้เชี่ยวชาญด้านอุปกรณ์ของร้านเช่ากล้อง Lenslineup (ร้านอยู่ชั้น 12 อาคารเอเชีย ติด BTS ราชเทวี)
 หน้าที่ของคุณคือ แนะนำกล้องหรือมือถือที่เหมาะสมที่สุดให้กับลูกค้าตามความต้องการ
@@ -57,26 +58,42 @@ if user_input := st.chat_input("บอกงานที่ต้องการ
     with st.chat_message("user"):
         st.markdown(user_input)
 
-    # เรียกใช้งาน Gemini AI
-    try:
-        client = genai.Client(api_key=api_key)
+    # เรียกใช้งาน Gemini AI พร้อมระบบลองใหม่ (Retry) หากเซิร์ฟเวอร์หนาแน่น
+    with st.chat_message("assistant"):
+        message_placeholder = st.empty()
+        success = False
+        response_text = ""
         
-        # จัดรูปแบบประวัติแชทเพื่อส่งให้ AI
-        contents = [
-            {"role": "user" if m["role"] == "user" else "model", "parts": [{"text": m["content"]}]}
-            for m in st.session_state.messages
-        ]
+        for attempt in range(3): # ลองใหม่สูงสุด 3 ครั้ง
+            try:
+                client = genai.Client(api_key=api_key)
+                
+                # จัดรูปแบบประวัติแชทเพื่อส่งให้ AI
+                contents = [
+                    {"role": "user" if m["role"] == "user" else "model", "parts": [{"text": m["content"]}]}
+                    for m in st.session_state.messages
+                ]
 
-        # ประมวลผลและแสดงคำตอบ
-        with st.chat_message("assistant"):
-            response = client.models.generate_content(
-                model="gemini-3.6-flash",
-                contents=contents,
-                config={"system_instruction": system_instruction}
-            )
-            st.markdown(response.text)
-            # บันทึกคำตอบ AI
-            st.session_state.messages.append({"role": "assistant", "content": response.text})
-            
-    except Exception as e:
-        st.error(f"เกิดข้อผิดพลาดในการเชื่อมต่อกับ AI: {e}")
+                response = client.models.generate_content(
+                    model="gemini-2.0-flash",
+                    contents=contents,
+                    config={"system_instruction": system_instruction}
+                )
+                response_text = response.text
+                success = True
+                break
+            except Exception as e:
+                if "503" in str(e) or "RESOURCE_EXHAUSTED" in str(e):
+                    if attempt < 2:
+                        message_placeholder.info(f"⏳ เซิร์ฟเวอร์กำลังหนาแน่น กำลังลองเชื่อมต่อใหม่อัตโนมัติ (ครั้งที่ {attempt + 1})...")
+                        time.sleep(2) # รอ 2 วินาทีก่อนลองใหม่
+                        continue
+                response_text = f"เกิดข้อผิดพลาดในการเชื่อมต่อกับ AI: {e}"
+                break
+
+        if success:
+            message_placeholder.markdown(response_text)
+            # บันทึกคำตอบ AI ลงประวัติ
+            st.session_state.messages.append({"role": "assistant", "content": response_text})
+        else:
+            message_placeholder.error(response_text)
