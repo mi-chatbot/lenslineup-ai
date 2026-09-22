@@ -94,17 +94,19 @@ if st.session_state.step == "home":
         </div>
     """, unsafe_allow_html=True)
     
-    st.button("💬 เริ่มคุยกับ AI เลย", on_click=go_to_chat)
+    col1, col2, col3 = st.columns([1, 1.5, 1])
+    with col2:
+        st.button("💬 เริ่มคุยกับ AI เลย", on_click=go_to_chat, use_container_width=True)
 
 # ==========================================
 # หน้าที่ 2: หน้าแชท AI (Chat)
 # ==========================================
 elif st.session_state.step == "chat":
-    # ส่วนหัว (เอาปุ่มออก และเพิ่มคำโปรยให้หน้าไม่โล่ง)
+    # ส่วนหัว
     st.markdown("""
         <div style="text-align: center; margin-bottom: 10px;">
             <h2 style='color: #FFB800; margin-bottom: 5px; font-size: 1.8rem;'>✨ Lenslineup AI</h2>
-            <p style='color: #AAAAAA; font-size: 0.95rem; margin: 0;'>ตามหากล้องตัวไหนอยู่? ให้ AI ช่วยจับคู่กล้องที่ใช่สำหรับคุณ</p>
+            <p style='color: #AAAAAA; font-size: 0.95rem; margin: 0;'>บอกงานที่ไป หรืองบที่มี เดี๋ยว AI จัดกล้องที่ตรงใจให้เลย!</p>
         </div>
     """, unsafe_allow_html=True)
     st.divider()
@@ -132,7 +134,7 @@ elif st.session_state.step == "chat":
     {json.dumps(camera_catalog, ensure_ascii=False, indent=2)}
     """
 
-    # เปลี่ยนประโยคทักทายแรก
+    # ประโยคทักทายแรก
     if not st.session_state.messages:
         with st.chat_message("assistant", avatar="📸"):
             st.markdown("สวัสดีครับ! เอากล้องไปถ่ายแนวไหน เที่ยวที่ไหน หรือมีงบในใจเท่าไหร่ พิมพ์บอกมาได้เลยครับเดี๋ยวผมช่วยเลือกให้! 👇")
@@ -148,27 +150,33 @@ elif st.session_state.step == "chat":
         with st.chat_message("user", avatar="🧑‍💻"):
             st.markdown(user_input)
 
-        # เรียกใช้งาน Gemini
+        # เรียกใช้งาน Gemini พร้อมระบบโหลด (Spinner)
         with st.chat_message("assistant", avatar="📸"):
             message_placeholder = st.empty()
             success = False
-            for attempt in range(3):
-                try:
-                    client = genai.Client(api_key=api_key)
-                    contents = [{"role": "user" if m["role"] == "user" else "model", "parts": [{"text": m["content"]}]} for m in st.session_state.messages]
-                    response = client.models.generate_content(
-                        model="gemini-3.6-flash", contents=contents, config={"system_instruction": system_instruction}
-                    )
-                    message_placeholder.markdown(response.text)
-                    st.session_state.messages.append({"role": "assistant", "content": response.text})
-                    success = True
-                    break
-                except Exception as e:
-                    error_str = str(e)
-                    if "429" in error_str or "503" in error_str or "RESOURCE_EXHAUSTED" in error_str:
-                        if attempt < 2:
-                            message_placeholder.info(f"⏳ ระบบกำลังประมวลผล กรุณารอสักครู่ (กำลังลองใหม่ครั้งที่ {attempt + 1})...")
-                            time.sleep(3)
-                            continue
-                    message_placeholder.error(f"เกิดข้อผิดพลาดในการเชื่อมต่อ: {e}")
-                    break
+            
+            # เพิ่มแอนิเมชันกำลังโหลดตรงนี้
+            with st.spinner("⏳ AI กำลังค้นหากล้องที่ตรงใจคุณที่สุด..."):
+                for attempt in range(3):
+                    try:
+                        client = genai.Client(api_key=api_key)
+                        contents = [{"role": "user" if m["role"] == "user" else "model", "parts": [{"text": m["content"]}]} for m in st.session_state.messages]
+                        response = client.models.generate_content(
+                            model="gemini-3.6-flash", contents=contents, config={"system_instruction": system_instruction}
+                        )
+                        success = True
+                        break
+                    except Exception as e:
+                        error_str = str(e)
+                        if "429" in error_str or "503" in error_str or "RESOURCE_EXHAUSTED" in error_str:
+                            if attempt < 2:
+                                message_placeholder.info(f"⏳ ระบบกำลังประมวลผล กรุณารอสักครู่ (กำลังลองใหม่ครั้งที่ {attempt + 1})...")
+                                time.sleep(3)
+                                continue
+                        message_placeholder.error(f"เกิดข้อผิดพลาดในการเชื่อมต่อ: {e}")
+                        break
+            
+            # เมื่อโหลดเสร็จแล้วค่อยแสดงข้อความ
+            if success:
+                message_placeholder.markdown(response.text)
+                st.session_state.messages.append({"role": "assistant", "content": response.text})
