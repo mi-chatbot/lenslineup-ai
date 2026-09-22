@@ -75,7 +75,7 @@ if user_input := st.chat_input("บอกงานที่ต้องการ
                 ]
 
                 response = client.models.generate_content(
-                    model="gemini-2.0-flash",
+                    model="gemini-3.6-flash",
                     contents=contents,
                     config={"system_instruction": system_instruction}
                 )
@@ -86,7 +86,7 @@ if user_input := st.chat_input("บอกงานที่ต้องการ
                 if "503" in str(e) or "RESOURCE_EXHAUSTED" in str(e):
                     if attempt < 2:
                         message_placeholder.info(f"⏳ เซิร์ฟเวอร์กำลังหนาแน่น กำลังลองเชื่อมต่อใหม่อัตโนมัติ (ครั้งที่ {attempt + 1})...")
-                        time.sleep(2) # รอ 2 วินาทีก่อนลองใหม่
+                        time.sleep(2)
                         continue
                 response_text = f"เกิดข้อผิดพลาดในการเชื่อมต่อกับ AI: {e}"
                 break
