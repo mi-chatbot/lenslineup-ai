@@ -131,7 +131,7 @@ if user_input := st.chat_input("บอกงานที่ต้องการ
                 ]
 
                 response = client.models.generate_content(
-                    model="gemini-1.5-flash",
+                    model="gemini-2.5-flash",
                     contents=contents,
                     config={"system_instruction": system_instruction}
                 )
