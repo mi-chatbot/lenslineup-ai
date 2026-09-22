@@ -8,7 +8,7 @@ st.title("📷 ผู้ช่วยแนะนำกล้องเช่า (
 st.markdown("สวัสดีครับ! ยินดีต้อนรับสู่ผู้ช่วย AI จากร้าน Lenslineup อาคารเอเชีย (ติด BTS ราชเทวี) พิมพ์บอกงานหรือสเปกที่อยากได้เลยครับ!")
 
 # === ใส่ API Key ตรงนี้ (ใส่แค่ครั้งเดียวแล้วใช้ได้ตลอด) ===
-api_key = "AQ.Ab8RN6L4_1Ejba_R5y2GDuymSYnrfzq6Dji7SJjDD-bT_XjTdg"
+api_key = st.secrets["GEMINI_API_KEY"
 
 # โหลดแคตตาล็อกกล้อง
 try:
