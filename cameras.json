@@ -198,5 +198,176 @@
     "level": "ระดับกลาง",
     "highlight": "กล้องสแนปตัวเล็กพกพาง่าย มาพร้อมแฟลชมินิ เหมาะมากสำหรับสายสตรีทและถ่ายภาพพอร์ตเทรตเปิดแฟลชสไตล์วัยรุ่น",
     "url": "https://www.lenslineup.com/rent/ricoh-gr-iv-medalight-f1-mini-flash"
+  },
+  {
+    "name": "Canon EOS 200D + EF-S 18-55mm f/3.5-5.6 IS STM",
+    "brand": "Canon",
+    "type": "DSLR",
+    "price_per_day": 250,
+    "best_for": ["มือใหม่หัดถ่าย", "ถ่ายรูปทั่วไป", "ท่องเที่ยว"],
+    "level": "มือใหม่",
+    "highlight": "กล้อง DSLR ขนาดเล็กกะทัดรัด น้ำหนักเบา ใช้งานง่าย เหมาะสำหรับผู้เริ่มต้น",
+    "url": "https://www.lenslineup.com/rent/canon-eos-200d-ef-s-18-55mm-f-3-5-5-6-is-stm"
+  },
+  {
+    "name": "Canon EOS 750D + EF-S 18-55mm f/3.5-5.6 IS STM",
+    "brand": "Canon",
+    "type": "DSLR",
+    "price_per_day": 300,
+    "best_for": ["มือใหม่หัดถ่าย", "งบประหยัด", "ถ่ายรูปทั่วไป"],
+    "level": "มือใหม่",
+    "highlight": "กล้อง DSLR ราคาประหยัดสุดๆ ใช้งานง่าย เหมาะสำหรับนักเรียนนักศึกษา หรือผู้ที่อยากทดลองใช้กล้องเปลี่ยนเลนส์",
+    "url": "https://www.lenslineup.com/rent/canon-eos-750d-ef-s-18-55mm-f-3-5-5-6-is-stm"
+  },
+  {
+    "name": "Fujifilm X Half",
+    "brand": "Fujifilm",
+    "type": "Premium Compact",
+    "price_per_day": 350,
+    "best_for": ["ถ่ายสตรีท", "คาเฟ่", "สายวินเทจ/ฟิล์ม"],
+    "level": "ระดับเริ่มต้นถึงกลาง",
+    "highlight": "กล้องคอมแพ็กต์ half-frame สไตล์วินเทจ ถ่ายภาพแนวตั้ง 3:4 เลนส์ 32mm f/2.8 พร้อมฟิล์มซิมูเลชัน เหมาะกับสายครีเอทีฟ",
+    "url": "https://www.lenslineup.com/rent/fujifilm-x-half"
+  },
+  {
+    "name": "Fujifilm X-Pro3 Body",
+    "brand": "Fujifilm",
+    "type": "APS-C Mirrorless",
+    "price_per_day": 800,
+    "best_for": ["ถ่ายสตรีท", "สายสแนป", "ถ่ายภาพแนวฟิล์ม"],
+    "level": "ระดับโปร / ไฮเอนด์",
+    "highlight": "กล้องดีไซน์คลาสสิกแบบ Rangefinder หน้าจอพับซ่อนได้ ให้ฟีลลิ่งเหมือนถ่ายกล้องฟิล์ม (เฉพาะบอดี้ ต้องเช่าเลนส์เพิ่ม)",
+    "url": "https://www.lenslineup.com/rent/fujifilm-x-pro3-body"
+  },
+  {
+    "name": "Fujifilm X100VI (Silver)",
+    "brand": "Fujifilm",
+    "type": "Premium Compact",
+    "price_per_day": 1000,
+    "best_for": ["ถ่ายสตรีท", "ท่องเที่ยว", "คาเฟ่", "จบหลังกล้อง"],
+    "level": "ระดับกลาง / สายสไตล์",
+    "highlight": "กล้องคอมแพคสุดฮิตบอดี้สีเงินคลาสสิก โทนสีฟิล์มฟูจิสวยงาม มีกันสั่น พกพาง่าย ถ่ายสนุก",
+    "url": "https://www.lenslineup.com/rent/fujifilm-x100vi-silver"
+  },
+  {
+    "name": "Fujifilm X-T30 II Body",
+    "brand": "Fujifilm",
+    "type": "APS-C Mirrorless",
+    "price_per_day": 500,
+    "best_for": ["ท่องเที่ยว", "ถ่ายรูปทั่วไป", "คาเฟ่"],
+    "level": "ระดับกลาง",
+    "highlight": "กล้องน้ำหนักเบา ดีไซน์เรโทร พกพาสะดวก ได้ไฟล์ภาพสวยสไตล์ฟูจิ (เฉพาะบอดี้ ต้องเช่าเลนส์เพิ่ม)",
+    "url": "https://www.lenslineup.com/rent/fujifilm-x-t30-ii-body"
+  },
+  {
+    "name": "GoPro HERO13 Black + Super Suit Dive Housing + The Handler",
+    "brand": "GoPro",
+    "type": "Action Camera",
+    "price_per_day": 700,
+    "best_for": ["ดำน้ำ", "กิจกรรมแอดเวนเจอร์", "ท่องเที่ยวลุยๆ"],
+    "level": "ผู้ใช้ทั่วไป / ทุกระดับ",
+    "highlight": "เซ็ตกล้องแอคชั่นแคมรุ่นใหม่ล่าสุด พร้อมเคสกันน้ำลึกและทุ่นลอยน้ำ เหมาะสำหรับสายดำน้ำและลุยน้ำโดยเฉพาะ",
+    "url": "https://www.lenslineup.com/rent/gopro-hero13-black-super-suit-dive-housing-the-handler"
+  },
+  {
+    "name": "GoPro HERO13 Black",
+    "brand": "GoPro",
+    "type": "Action Camera",
+    "price_per_day": 500,
+    "best_for": ["กิจกรรมแอดเวนเจอร์", "ท่องเที่ยว", "VLOG", "กีฬา"],
+    "level": "ผู้ใช้ทั่วไป / ทุกระดับ",
+    "highlight": "กล้องแอคชั่นแคมรุ่นใหม่ล่าสุด กันสั่นยอดเยี่ยม ถ่ายวิดีโอความละเอียดสูง ทนทาน กันน้ำได้ในตัว",
+    "url": "https://www.lenslineup.com/rent/gopro-hero13-black"
+  },
+  {
+    "name": "Leica D-Lux 8",
+    "brand": "Leica",
+    "type": "Premium Compact",
+    "price_per_day": 1000,
+    "best_for": ["ถ่ายไลฟ์สไตล์หรูหรา", "ท่องเที่ยวพรีเมียม", "ถ่ายสตรีท"],
+    "level": "ระดับกลางถึงโปร",
+    "highlight": "กล้อง Premium Compact เซ็นเซอร์ 4/3 นิ้ว เลนส์ไวแสง f/1.7-2.8 ถ่ายภาพแสงน้อยได้ดีเยี่ยม รองรับวิดีโอ 4K",
+    "url": "https://www.lenslineup.com/rent/leica-d-lux-8"
+  },
+  {
+    "name": "DJI Osmo 360 II",
+    "brand": "DJI",
+    "type": "Action / 360 Camera",
+    "price_per_day": 600,
+    "best_for": ["ถ่ายวิดีโอ 360 องศา", "Vlog", "ท่องเที่ยวลุยๆ"],
+    "level": "ผู้ใช้ทั่วไป / ทุกระดับ",
+    "highlight": "กล้องแอคชั่นแคมถ่ายวิดีโอรอบทิศทาง 360 องศา กันสั่นยอดเยี่ยม เก็บภาพได้ครบทุกมุมมอง",
+    "url": "https://www.lenslineup.com/rent/dji-osmo-360-ii"
+  },
+  {
+    "name": "Ricoh GR IV HDF + FlashQ Q20II LightPix Labs",
+    "brand": "Ricoh",
+    "type": "Premium Compact",
+    "price_per_day": 800,
+    "best_for": ["ถ่ายสตรีท", "ถ่ายคาเฟ่", "ถ่ายพอร์ตเทรตเปิดแฟลช", "สายสแนป"],
+    "level": "ระดับกลาง",
+    "highlight": "กล้องคอมแพคตัวเล็กพกพาง่าย รุ่น HDF (Highlight Diffusion Filter) ให้แสงละมุน มาพร้อมแฟลช FlashQ Q20II ถ่ายสนุกมาก",
+    "url": "https://www.lenslineup.com/rent/ricoh-gr-iv-hdf-flashq-q20ii-lightpix-labs"
+  },
+  {
+    "name": "Ricoh GR IV + Medalight F2 Mini Wireless Flash",
+    "brand": "Ricoh",
+    "type": "Premium Compact",
+    "price_per_day": 700,
+    "best_for": ["ถ่ายสตรีท", "ถ่ายคาเฟ่", "สายสแนป"],
+    "level": "ระดับกลาง",
+    "highlight": "กล้องคอมแพคสายสแนปยอดฮิต ไฟล์สวยคมกริบ จับคู่กับแฟลชไร้สาย Medalight F2 Mini ถ่ายเปิดแฟลชสไตล์วัยรุ่นได้ดีเยี่ยม",
+    "url": "https://www.lenslineup.com/rent/ricoh-gr-iv-medalight-f2-mini-wireless-flash"
+  },
+  {
+    "name": "Panasonic Lumix G100 + 12-32mm",
+    "brand": "Panasonic",
+    "type": "Micro Four Thirds Mirrorless",
+    "price_per_day": 450,
+    "best_for": ["Vlog", "ทำคอนเทนต์", "ท่องเที่ยว"],
+    "level": "มือใหม่ / ครีเอเตอร์",
+    "highlight": "กล้อง Mirrorless ขนาดกะทัดรัด ออกแบบมาเพื่อสาย Vlog และคอนเทนต์ครีเอเตอร์ มีไมค์ในตัวที่ดีเยี่ยม พร้อมเลนส์ซูมมุมกว้าง",
+    "url": "https://www.lenslineup.com/rent/panasonic-lumix-g100-12-32mm"
+  },
+  {
+    "name": "Panasonic DC-TZ99",
+    "brand": "Panasonic",
+    "type": "Compact Zoom",
+    "price_per_day": 400,
+    "best_for": ["ท่องเที่ยว", "คอนเสิร์ต", "พกพาสะดวก"],
+    "level": "ผู้ใช้ทั่วไป / มือใหม่",
+    "highlight": "กล้องคอมแพคซูมไกล พกพาสะดวก ถ่ายคอนเสิร์ตศิลปินเกาหลีหรือซูมเจาะรายละเอียดตอนท่องเที่ยวได้ดีเยี่ยม",
+    "url": "https://www.lenslineup.com/rent/panasonic-dc-tz99"
+  },
+  {
+    "name": "Canon EOS R6 Mark III + RF 50mm f/1.2L USM",
+    "brand": "Canon",
+    "type": "Full-frame Mirrorless",
+    "price_per_day": 2200,
+    "best_for": ["ถ่ายคน/พอร์ตเทรต", "งานแต่งงาน", "รับปริญญา", "อีเวนต์"],
+    "level": "มืออาชีพ",
+    "highlight": "เซ็ตกล้องฟูลเฟรมประสิทธิภาพสูง จับคู่กับเลนส์เกรดโปร f/1.2L ละลายฉากหลังสุดเนียน โฟกัสแม่นยำ สำหรับรับงานโดยเฉพาะ",
+    "url": "https://www.lenslineup.com/rent/canon-eos-r6-mark-iii-rf-50mm-f-1-2l-usm"
+  },
+  {
+    "name": "Sony ZV-1 II",
+    "brand": "Sony",
+    "type": "Vlog Compact",
+    "price_per_day": 500,
+    "best_for": ["Vlog", "ทำคอนเทนต์", "ถ่ายคลิปรีวิว"],
+    "level": "มือใหม่ / ครีเอเตอร์",
+    "highlight": "กล้องคอมแพคยอดฮิตสำหรับสาย Vlog เลนส์มุมกว้างขึ้น โฟกัสสินค้าไว มีไมค์คุณภาพดีในตัว พกพาง่าย ถ่ายคลิปสะดวก",
+    "url": "https://www.lenslineup.com/rent/sony-zv-1-ii"
+  },
+  {
+    "name": "Insta360 Luna Ultra Creator Bundle",
+    "brand": "Insta360",
+    "type": "Gimbal / Creator Camera",
+    "price_per_day": 700,
+    "best_for": ["Vlog ลุยๆ", "ทำคอนเทนต์", "ถ่ายวิดีโอเคลื่อนไหว"],
+    "level": "ระดับกลาง / ครีเอเตอร์",
+    "highlight": "เซ็ตอุปกรณ์ถ่ายวิดีโอพร้อมไม้กันสั่นอัจฉริยะแบบจัดเต็ม ถ่ายภาพเคลื่อนไหวได้นิ่งสนิท พร้อมชุดสำหรับสายครีเอเตอร์",
+    "url": "https://www.lenslineup.com/rent/insta360-luna-ultra-creator-bundle"
   }
+
 ]
