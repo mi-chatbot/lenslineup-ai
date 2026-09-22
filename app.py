@@ -75,9 +75,6 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 
 def go_to_chat(): st.session_state.step = "chat"
-def go_to_home(): 
-    st.session_state.step = "home"
-    st.session_state.messages = [] # เคลียร์แชทเมื่อกลับหน้าแรก
 
 # ==========================================
 # หน้าที่ 1: หน้าแรก (Home)
@@ -103,15 +100,16 @@ if st.session_state.step == "home":
 # หน้าที่ 2: หน้าแชท AI (Chat)
 # ==========================================
 elif st.session_state.step == "chat":
-    # ส่วนหัวและปุ่มย้อนกลับ
-    col1, col2 = st.columns([3, 1])
-    with col1:
-        st.markdown("<h3 style='text-align: left; margin: 0;'>✨ Lenslineup AI</h3>", unsafe_allow_html=True)
-    with col2:
-        st.button("🔄 เริ่มใหม่", on_click=go_to_home)
+    # ส่วนหัว (เอาปุ่มออก และเพิ่มคำโปรยให้หน้าไม่โล่ง)
+    st.markdown("""
+        <div style="text-align: center; margin-bottom: 10px;">
+            <h2 style='color: #FFB800; margin-bottom: 5px; font-size: 1.8rem;'>✨ Lenslineup AI</h2>
+            <p style='color: #AAAAAA; font-size: 0.95rem; margin: 0;'>พิมพ์ปรึกษาและค้นหากล้องที่เหมาะกับงานของคุณได้เลย</p>
+        </div>
+    """, unsafe_allow_html=True)
     st.divider()
     
-    # คำสั่ง AI (แก้ไขให้ใช้ Bullet point และขึ้นบรรทัดใหม่)
+    # คำสั่ง AI
     system_instruction = f"""
     คุณคือผู้เชี่ยวชาญด้านอุปกรณ์ของร้านเช่ากล้อง Lenslineup (ร้านอยู่ชั้น 12 อาคารเอเชีย ติด BTS ราชเทวี)
     หน้าที่ของคุณคือ แนะนำกล้องหรือมือถือที่เหมาะสมที่สุดให้กับลูกค้าตามความต้องการ
@@ -134,10 +132,10 @@ elif st.session_state.step == "chat":
     {json.dumps(camera_catalog, ensure_ascii=False, indent=2)}
     """
 
-    # แสดงข้อความแชท
+    # เปลี่ยนประโยคทักทายแรก
     if not st.session_state.messages:
         with st.chat_message("assistant", avatar="📸"):
-            st.markdown("สวัสดีครับ! ให้ออกงานแบบไหน งบเท่าไหร่ หรือมีสไตล์ที่ชอบเป็นพิเศษไหมครับ พิมพ์บอกผมได้เลย 👇")
+            st.markdown("สวัสดีครับ! เอากล้องไปถ่ายแนวไหน เที่ยวที่ไหน หรือมีงบในใจเท่าไหร่ พิมพ์บอกมาได้เลยครับเดี๋ยวผมช่วยเลือกให้! 👇")
 
     for msg in st.session_state.messages:
         avatar = "🧑‍💻" if msg["role"] == "user" else "📸"
