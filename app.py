@@ -5,10 +5,67 @@ from google import genai
 
 # การตั้งค่าหน้าเว็บ
 st.set_page_config(page_title="Lenslineup AI Guide", page_icon="📷", layout="centered")
+
+# ตกแต่ง CSS ธีม ดำ-ส้ม แบบ Premium Tech (พื้นหลังเข้ม, ตัวอักษรขาว, Accent สีส้ม, ขอบโค้งมน, มีเงา)
+st.markdown("""
+    <style>
+    /* ธีมหลักพื้นหลังแอป */
+    .stApp {
+        background-color: #0e0e0e;
+        color: #f3f4f6;
+    }
+    
+    /* จัดแต่งหัวข้อหลัก */
+    h1 {
+        color: #ffffff;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }
+
+    /* ปรับแต่งกล่องข้อความแชทของผู้ใช้ (User) ให้มีขอบมนและโทนส้มพรีเมียม */
+    div.stChatMessage[data-testid="stChatMessage-user"] {
+        background-color: #1f1f1f;
+        border: 1px solid #ff7a00;
+        border-radius: 12px;
+        padding: 12px;
+        box-shadow: 0 4px 12px rgba(255, 122, 0, 0.1);
+    }
+
+    /* ปรับแต่งกล่องข้อความแชทของ AI (Assistant) */
+    div.stChatMessage[data-testid="stChatMessage-assistant"] {
+        background-color: #161616;
+        border: 1px solid #2a2a2a;
+        border-radius: 12px;
+        padding: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    /* ช่องพิมพ์ข้อความแชทด้านล่าง */
+    .stChatInputContainer {
+        border-radius: 12px;
+        border: 1px solid #ff7a00 !important;
+        background-color: #161616;
+    }
+    
+    /* ปรับสีปุ่มกดต่างๆ ให้เป็นส้ม Accent */
+    .stButton button {
+        background-color: #ff7a00;
+        color: white;
+        border-radius: 8px;
+        border: none;
+        font-weight: 600;
+    }
+    .stButton button:hover {
+        background-color: #e56d00;
+        color: white;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 st.title("📷 ผู้ช่วยแนะนำกล้องเช่า (Lenslineup)")
 st.markdown("สวัสดีครับ! ยินดีต้อนรับสู่ผู้ช่วย AI จากร้าน Lenslineup อาคารเอเชีย (ติด BTS ราชเทวี) พิมพ์บอกงานหรือสเปกที่อยากได้เลยครับ!")
 
-# === ใส่ API Key ตรงนี้ (ใส่แค่ครั้งเดียวแล้วใช้ได้ตลอด) ===
+# === ใส่ API Key ตรงนี้ (ดึงจาก Streamlit Secrets) ===
 api_key = st.secrets["GEMINI_API_KEY"]
 
 # โหลดแคตตาล็อกกล้อง
@@ -58,17 +115,16 @@ if user_input := st.chat_input("บอกงานที่ต้องการ
     with st.chat_message("user"):
         st.markdown(user_input)
 
-    # เรียกใช้งาน Gemini AI พร้อมระบบลองใหม่ (Retry) หากเซิร์ฟเวอร์หนาแน่น
+    # เรียกใช้งาน Gemini AI พร้อมระบบลองใหม่ (Retry) ป้องกันเซิร์ฟเวอร์หนาแน่น
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
         success = False
         response_text = ""
         
-        for attempt in range(3): # ลองใหม่สูงสุด 3 ครั้ง
+        for attempt in range(3):
             try:
                 client = genai.Client(api_key=api_key)
                 
-                # จัดรูปแบบประวัติแชทเพื่อส่งให้ AI
                 contents = [
                     {"role": "user" if m["role"] == "user" else "model", "parts": [{"text": m["content"]}]}
                     for m in st.session_state.messages
@@ -93,7 +149,6 @@ if user_input := st.chat_input("บอกงานที่ต้องการ
 
         if success:
             message_placeholder.markdown(response_text)
-            # บันทึกคำตอบ AI ลงประวัติ
             st.session_state.messages.append({"role": "assistant", "content": response_text})
         else:
             message_placeholder.error(response_text)
