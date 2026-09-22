@@ -1,0 +1,202 @@
+[
+  {
+    "name": "Sony A7CR + FE 24-70mm f/2.8 GM II",
+    "brand": "Sony",
+    "type": "Full-frame Mirrorless",
+    "price_per_day": 2100,
+    "best_for": ["ท่องเที่ยว", "ถ่ายคน/พอร์ตเทรต", "งานวิดีโอคุณภาพสูง"],
+    "level": "ระดับโปร / ไฮเอนด์",
+    "highlight": "กล้องฟูลเฟรมความละเอียดสูงในบอดี้น้ำหนักเบา มาพร้อมเลนส์ซูมเกรดโปรอเนกประสงค์ ถ่ายสวยทุกระยะ",
+    "url": "https://www.lenslineup.com/rent/sony-a7cr-fe-24-70mm-f-2-8-gm-ii"
+  },
+  {
+    "name": "Sony A7CII Body (ILCE-7CM2)",
+    "brand": "Sony",
+    "type": "Full-frame Mirrorless",
+    "price_per_day": 1200,
+    "best_for": ["ท่องเที่ยวพกพาง่าย", "สายสตรีท", "Vlog"],
+    "level": "มือใหม่ถึงระดับกลาง",
+    "highlight": "กล้องฟูลเฟรมขนาดกะทัดรัด โฟกัส AI ฉลาดแม่นยำ น้ำหนักเบาพกพาสะดวก (เฉพาะบอดี้ ต้องเช่าเลนส์เพิ่ม)",
+    "url": "https://www.lenslineup.com/rent/sony-a7cii-body"
+  },
+  {
+    "name": "Canon EOS R50 V + RF-S 14-30mm f/4-6.3 IS STM PZ + DJI MIC 3 + ขาตั้งกล้อง + ไฟAmaran Ace 25c",
+    "brand": "Canon",
+    "type": "Vlogging Set / APS-C",
+    "price_per_day": 1350,
+    "best_for": ["ทำคอนเทนต์", "Vlog", "ไลฟ์สด", "ถ่ายคลิปรีวิว"],
+    "level": "มือใหม่ / ครีเอเตอร์",
+    "highlight": "เซ็ตจัดเต็มสำหรับสายคอนเทนต์และ Vlog มีทั้งกล้อง ไมค์ลอย ขาตั้ง และไฟ ครบจบพร้อมถ่ายคลิปได้ทันที",
+    "url": "https://www.lenslineup.com/rent/canon-eos-r50-v-rf-s-14-30mm-f-4-6-3-is-stm-pz-dji-mic-3-amaran-ace-25c"
+  },
+  {
+    "name": "Fujifilm X100VI (Black)",
+    "brand": "Fujifilm",
+    "type": "Premium Compact",
+    "price_per_day": 1000,
+    "best_for": ["ถ่ายสตรีท", "เที่ยวคาเฟ่", "สายแฟชั่น", "จบหลังกล้อง"],
+    "level": "ระดับกลาง / สายสไตล์",
+    "highlight": "กล้องคอมแพคสุดฮิต โทนสีฟิล์มสวยงาม มีกันสั่นในตัว ดีไซน์คลาสสิกสีดำล้วนพกพาง่าย ถ่ายสนุก",
+    "url": "https://www.lenslineup.com/rent/fujifilm-x100vi-black"
+  },
+  {
+    "name": "Fujifilm X-T5 + XF 50-140mm f/2.8 R LM OIS WR",
+    "brand": "Fujifilm",
+    "type": "APS-C Mirrorless",
+    "price_per_day": 1450,
+    "best_for": ["ถ่ายคอนเสิร์ต", "กีฬา", "ถ่ายพอร์ตเทรตละลายหลัง", "อีเวนต์"],
+    "level": "ระดับโปร / สายคอนเสิร์ต",
+    "highlight": "ชุดกล้องพร้อมเลนส์ซูมเทเลโฟโต้เกรดโปร รูรับแสงกว้าง f/2.8 เหมาะสำหรับซูมศิลปินในคอนเสิร์ตหรือกีฬาได้คมกริบ",
+    "url": "https://www.lenslineup.com/rent/fujifilm-x-t5-xf-50-140mm-f-2-8-r-lm-ois-wr"
+  },
+  {
+    "name": "Nikon Z6 + Z 24-70mm f/2.8 S",
+    "brand": "Nikon",
+    "type": "Full-frame Mirrorless",
+    "price_per_day": 2000,
+    "best_for": ["งานแต่งงาน", "รับปริญญา", "อีเวนต์", "ถ่ายคน/พอร์ตเทรต"],
+    "level": "มืออาชีพ",
+    "highlight": "กล้องฟูลเฟรมไฟล์ภาพเนียนกริบ จับคู่กับเลนส์ซูมเกรดโปร f/2.8 คมชัดทุกสถานการณ์ ถ่ายรับปริญญาหรืออีเวนต์สบายๆ",
+    "url": "https://www.lenslineup.com/rent/nikon-z6-z-24-70mm-f-2-8-s"
+  },
+  {
+    "name": "Leica Q3 Black",
+    "brand": "Leica",
+    "type": "Luxury Premium Compact",
+    "price_per_day": 2000,
+    "best_for": ["ถ่ายไลฟ์สไตล์หรูหรา", "ถ่ายสตรีท", "ท่องเที่ยวพรีเมียม"],
+    "level": "ระดับโปร / ไฮเอนด์",
+    "highlight": "กล้องลักชูรีฟูลเฟรมความละเอียด 60 ล้านพิกเซล เลนส์คมกริบ ให้โทนสี Leica Look ที่เป็นเอกลักษณ์เฉพาะตัว",
+    "url": "https://www.lenslineup.com/rent/leica-q3-black"
+  },
+  {
+    "name": "Leica SOFORT 2 Instant Camera",
+    "brand": "Leica",
+    "type": "Instant Camera / Hybrid",
+    "price_per_day": 400,
+    "best_for": ["ถ่ายเล่นในปาร์ตี้", "ท่องเที่ยว", "เก็บความทรงจำสายวินเทจ"],
+    "level": "มือใหม่ ใช้ง่าย",
+    "highlight": "กล้องอินสแตนท์ไฮบริดสุดชิค พรินต์รูปโพลารอยด์ออกมาได้ทันที ดีไซน์สวยหรูสไตล์ Leica ถ่ายสนุกได้ฟีลลิ่ง",
+    "url": "https://www.lenslineup.com/rent/leica-sofort-2-instant-camera"
+  },
+  {
+    "name": "Leica Q (Typ 116) Black",
+    "brand": "Leica",
+    "type": "Premium Compact",
+    "price_per_day": 1000,
+    "best_for": ["ถ่ายสตรีท", "ท่องเที่ยว", "สายขาวดำ", "เริ่มต้นกับ Leica"],
+    "level": "ระดับกลางถึงโปร",
+    "highlight": "จุดเริ่มต้นของกล้องคลาสสิกตระกูล Q เซ็นเซอร์ฟูลเฟรม เลนส์ 28mm f/1.7 ถ่ายสนุก ให้มิติภาพโดดเด่น",
+    "url": "https://www.lenslineup.com/rent/leica-q-typ-116-black"
+  },
+  {
+    "name": "DJI Osmo Pocket 4P",
+    "brand": "DJI",
+    "type": "Compact Gimbal Camera",
+    "price_per_day": 600,
+    "best_for": ["คอนเสิร์ต", "เที่ยวคนเดียว", "Vlog", "ทำคลิปสั้น"],
+    "level": "มือใหม่ ใช้ง่ายมาก",
+    "highlight": "กล้องสาย Vlog เล็กกะทัดรัดพกพาง่าย มีกันสั่นในตัว ถ่ายคอนเสิร์ตหรือเดินถ่ายวิดีโอได้นิ่งสนิท",
+    "url": "https://www.lenslineup.com/rent/dji-osmo-pocket-4p"
+  },
+  {
+    "name": "Insta360 X5 360° 8K",
+    "brand": "Insta360",
+    "type": "360 Action Camera",
+    "price_per_day": 550,
+    "best_for": ["ถ่ายวิดีโอ 360 องศา", "ท่องเที่ยว", "Vlog ลุยๆ"],
+    "level": "มือใหม่ถึงระดับกลาง",
+    "highlight": "กล้อง 360 องศารุ่นใหม่ ถ่ายวิดีโอชัดระดับ 8K เก็บภาพได้รอบทิศทางแล้วนำมาเลือกมุมตัดต่อทีหลังได้ง่าย",
+    "url": "https://www.lenslineup.com/rent/insta360-x5-360-8k"
+  },
+  {
+    "name": "Samsung Galaxy S23 Ultra",
+    "brand": "Samsung",
+    "type": "Smartphone",
+    "price_per_day": 600,
+    "best_for": ["ถ่ายคอนเสิร์ต", "ถ่ายซูมไกล", "Vlog"],
+    "level": "ผู้ใช้ทั่วไป / ทุกระดับ",
+    "highlight": "สมาร์ทโฟนตัวท็อปยอดฮิตเรื่องการซูม ถ่ายศิลปินในคอนเสิร์ตได้ชัดเป๊ะโดยไม่ต้องพกกล้องใหญ่",
+    "url": "https://www.lenslineup.com/rent/samsung-galaxy-s23-ultra"
+  },
+  {
+    "name": "Samsung Galaxy S24 Ultra",
+    "brand": "Samsung",
+    "type": "Smartphone",
+    "price_per_day": 700,
+    "best_for": ["ถ่ายคอนเสิร์ต", "ทำคอนเทนต์", "ถ่ายวิดีโอ"],
+    "level": "ผู้ใช้ทั่วไป / ทุกระดับ",
+    "highlight": "สมาร์ทโฟนเรือธงพร้อมระบบ AI อัจฉริยะ ซูมคอนเสิร์ตชัดเยี่ยม และถ่ายวิดีโอได้เนียนกริบ",
+    "url": "https://www.lenslineup.com/rent/samsung-galaxy-s24-ultra"
+  },
+  {
+    "name": "Samsung Galaxy S25 Ultra",
+    "brand": "Samsung",
+    "type": "Smartphone",
+    "price_per_day": 850,
+    "best_for": ["ถ่ายคอนเสิร์ต", "ถ่ายวิดีโอ 8K", "ทำคอนเทนต์ระดับโปร"],
+    "level": "ผู้ใช้ทั่วไป / ทุกระดับ",
+    "highlight": "สมาร์ทโฟนรุ่นท็อป ซูมไกลถ่ายคอนเสิร์ตได้คมชัดกว่าเดิม พร้อมกล้องคุณภาพสูงสำหรับสายคอนเทนต์",
+    "url": "https://www.lenslineup.com/rent/samsung-galaxy-s25-ultra"
+  },
+  {
+    "name": "Samsung Galaxy S26 Ultra",
+    "brand": "Samsung",
+    "type": "Smartphone",
+    "price_per_day": 1000,
+    "best_for": ["ถ่ายคอนเสิร์ตแบบจัดเต็ม", "คอนเทนต์ครีเอเตอร์", "ใช้งานพรีเมียม"],
+    "level": "ผู้ใช้ทั่วไป / ทุกระดับ",
+    "highlight": "สมาร์ทโฟนรุ่นใหม่ล่าสุด กล้องซูมเทพที่สุดสำหรับสายคอนเสิร์ต จัดการนอยส์ในที่มืดได้ดีเยี่ยม",
+    "url": "https://www.lenslineup.com/rent/Samsung%20Galaxy%20S26%20Ultra"
+  },
+  {
+    "name": "Canon EOS 800D + EF-S 18-55mm f/3.5-5.6 IS STM",
+    "brand": "Canon",
+    "type": "DSLR",
+    "price_per_day": 400,
+    "best_for": ["มือใหม่หัดถ่าย", "ถ่ายรูปทั่วไป", "งานโรงเรียน/มหาลัย"],
+    "level": "มือใหม่",
+    "highlight": "กล้อง DSLR ใช้งานง่าย มีหน้าจอเมนูแนะนำสำหรับมือใหม่ เหมาะมากสำหรับผู้เริ่มต้นเรียนรู้การถ่ายภาพ",
+    "url": "https://www.lenslineup.com/rent/canon-eos-800d-ef-s-18-55mm-f-3-5-5-6-is-stm"
+  },
+  {
+    "name": "Canon EOS 750D + EF-S 18-55mm f/3.5-5.6 IS STM",
+    "brand": "Canon",
+    "type": "DSLR",
+    "price_per_day": 300,
+    "best_for": ["มือใหม่หัดถ่าย", "งบประหยัด", "ถ่ายรูปทั่วไป"],
+    "level": "มือใหม่",
+    "highlight": "กล้อง DSLR ราคาประหยัดสุดๆ ใช้งานง่าย เหมาะสำหรับนักเรียนนักศึกษา หรือผู้ที่อยากทดลองใช้กล้องเปลี่ยนเลนส์",
+    "url": "https://www.lenslineup.com/rent/canon-eos-750d-ef-s-18-55mm-f-3-5-5-6-is-stm"
+  },
+  {
+    "name": "Nikon Z7 + Z 70-200mm f/2.8 VR S II",
+    "brand": "Nikon",
+    "type": "Full-frame Mirrorless",
+    "price_per_day": 2600,
+    "best_for": ["ถ่ายพอร์ตเทรต", "งานแต่งงาน", "กีฬา/อีเวนต์"],
+    "level": "มืออาชีพ",
+    "highlight": "กล้องฟูลเฟรมความละเอียดสูง จับคู่กับเลนส์ซูมเทเลโฟโต้เกรดโปร f/2.8 ให้ภาพคมกริบ ละลายฉากหลังสวยเนียน",
+    "url": "https://www.lenslineup.com/rent/nikon-z7-z-70-200mm-f-2-8-vr-s-ii"
+  },
+  {
+    "name": "Fujifilm X100VI (Silver)",
+    "brand": "Fujifilm",
+    "type": "Premium Compact",
+    "price_per_day": 1000,
+    "best_for": ["ถ่ายสตรีท", "ท่องเที่ยว", "คาเฟ่", "จบหลังกล้อง"],
+    "level": "ระดับกลาง / สายสไตล์",
+    "highlight": "กล้องคอมแพคสุดฮิตบอดี้สีเงินคลาสสิก โทนสีฟิล์มฟูจิสวยงาม มีกันสั่น พกพาง่าย ถ่ายสนุก",
+    "url": "https://www.lenslineup.com/rent/fujifilm-x100vi-silver"
+  },
+  {
+    "name": "Ricoh GR IV + Medalight F1 Mini Flash",
+    "brand": "Ricoh",
+    "type": "Premium Compact",
+    "price_per_day": 690,
+    "best_for": ["ถ่ายสตรีท", "ถ่ายคาเฟ่", "สายสแนป", "ถ่ายเปิดแฟลช"],
+    "level": "ระดับกลาง",
+    "highlight": "กล้องสแนปตัวเล็กพกพาง่าย มาพร้อมแฟลชมินิ เหมาะมากสำหรับสายสตรีทและถ่ายภาพพอร์ตเทรตเปิดแฟลชสไตล์วัยรุ่น",
+    "url": "https://www.lenslineup.com/rent/ricoh-gr-iv-medalight-f1-mini-flash"
+  }
+]
