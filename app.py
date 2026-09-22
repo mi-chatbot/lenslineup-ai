@@ -111,7 +111,7 @@ elif st.session_state.step == "chat":
     st.markdown("""
         <div style="text-align: center; margin-bottom: 10px;">
             <h2 style='color: #FFB800; margin-bottom: 5px; font-size: 1.8rem;'>✨ Lenslineup AI</h2>
-            <p style='font-size: 0.95rem; margin: 0;'>บอกงานที่ไป หรืองบที่มี เดี๋ยว AI จัดกล้องที่ตรงใจให้เลย!</p>
+            <p style='font-size: 0.95rem; margin: 0;'>บอกที่ที่ไป หรืองบที่มี เดี๋ยว AI จัดกล้องที่ตรงใจให้เลย!</p>
         </div>
     """, unsafe_allow_html=True)
     st.divider()
