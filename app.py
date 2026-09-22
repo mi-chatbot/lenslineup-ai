@@ -3,7 +3,7 @@ import time
 import streamlit as st
 from google import genai
 
-# === 1. การตั้งค่าหน้าเว็บและ CSS ธีม ดำ-ส้ม (Responsive & Clean UI) ===
+# === 1. การตั้งค่าหน้าเว็บและ CSS ให้ปรับตามธีมอุปกรณ์ (Responsive & System Theme) ===
 st.set_page_config(page_title="Lenslineup AI Guide", page_icon="📸", layout="centered")
 
 st.markdown("""
@@ -11,15 +11,7 @@ st.markdown("""
     @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap');
     * { font-family: 'Prompt', sans-serif !important; }
     
-    /* ธีมหลักพื้นหลังแอปทั้งหมด */
-    .stApp { background-color: #121212; color: #E0E0E0; }
-    
-    /* แก้ไขแถบด้านล่างสุด (Footer / Container พื้นหลัง) ให้เป็นสีเดียวกับแอป */
-    footer, .stFooter, [data-testid="stBottom"], [data-testid="stBottomBlockContainer"] {
-        background-color: #121212 !important;
-    }
-    
-    /* ซ่อนเมนูและโลโก้ Streamlit ส่วนเกิน */
+    /* ซ่อนเมนูและโลโก้ Streamlit ส่วนเกินเพื่อความสะอาด */
     header, #MainMenu, .viewerBadge_container__1QSob { visibility: hidden !important; display: none !important; }
     
     /* ปรับระยะขอบหน้าจอสำหรับมือถือและเดสก์ท็อป */
@@ -48,9 +40,8 @@ st.markdown("""
     }
     .stButton>button:hover { background-color: #FF9933 !important; transform: translateY(-2px); }
 
-    /* ปรับแต่งกล่องข้อความแชทให้อ่านง่าย ชัดเจน */
+    /* ปรับแต่งกล่องข้อความแชทให้อ่านง่าย สบายตา */
     div.stChatMessage[data-testid="stChatMessage-user"] {
-        background-color: #1F1F1F; 
         border-left: 4px solid #FFB800; 
         border-radius: 12px; 
         padding: 15px; 
@@ -58,8 +49,6 @@ st.markdown("""
         font-size: 1.02rem;
     }
     div.stChatMessage[data-testid="stChatMessage-assistant"] {
-        background-color: #181818; 
-        border: 1px solid #333333; 
         border-radius: 12px; 
         padding: 15px; 
         margin-bottom: 15px;
@@ -67,15 +56,13 @@ st.markdown("""
         line-height: 1.6;
     }
 
-    /* แยกช่องพิมพ์แชทให้เด่นชัด และคุมโทนสีเข้ม */
+    /* จัดระเบียบช่องพิมพ์แชทให้เด่นชัดและกลมกลืนกับระบบ */
     .stChatInputContainer {
         border: 2px solid #FFB800 !important; 
         border-radius: 16px !important; 
-        background-color: #1E1E1E !important; 
         padding: 4px 12px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     }
-    .stChatInputContainer textarea { color: #FFFFFF !important; font-size: 1rem !important; }
     </style>
 """, unsafe_allow_html=True)
 
@@ -101,13 +88,13 @@ def go_to_chat(): st.session_state.step = "chat"
 # ==========================================
 if st.session_state.step == "home":
     st.markdown("<h1 style='font-size: clamp(2.2rem, 6vw, 3rem); margin-bottom: 0; text-align: center;'>📸 Lenslineup AI</h1>", unsafe_allow_html=True)
-    st.markdown("<h3 style='color: #FFFFFF !important; font-weight: 400; font-size: 1.1rem; text-align: center; margin-top: 5px;'>ผู้ช่วยอัจฉริยะค้นหากล้องที่ใช่สำหรับคุณ</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 style='font-weight: 400; font-size: 1.1rem; text-align: center; margin-top: 5px;'>ผู้ช่วยอัจฉริยะค้นหากล้องที่ใช่สำหรับคุณ</h3>", unsafe_allow_html=True)
     st.write("")
     
     st.markdown("""
-        <div style='background-color: #1A1A1A; padding: 30px; border-radius: 15px; text-align: center; border: 1px solid #333; margin-bottom: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.5);'>
+        <div style='padding: 30px; border-radius: 15px; text-align: center; border: 1px solid rgba(128,128,128,0.3); margin-bottom: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.1);'>
             <h1 style='font-size: 4.5rem; margin: 0;'>✨🤖📷</h1>
-            <p style='color: #CCC; font-size: 1rem; margin-top: 15px; line-height: 1.6;'>
+            <p style='font-size: 1rem; margin-top: 15px; line-height: 1.6;'>
                 แค่บอกว่าคุณอยากนำกล้องไปทำอะไร<br>ไปเที่ยว, คอนเสิร์ต, VLOG หรือถ่ายงานจริงจัง<br>AI ของเราจะคัดเลือกรุ่นที่ใช่ที่สุดให้คุณทันที!
             </p>
         </div>
@@ -124,12 +111,12 @@ elif st.session_state.step == "chat":
     st.markdown("""
         <div style="text-align: center; margin-bottom: 10px;">
             <h2 style='color: #FFB800; margin-bottom: 5px; font-size: 1.8rem;'>✨ Lenslineup AI</h2>
-            <p style='color: #CCCCCC; font-size: 0.95rem; margin: 0;'>บอกงานที่ไป หรืองบที่มี เดี๋ยว AI จัดกล้องที่ตรงใจให้เลย!</p>
+            <p style='font-size: 0.95rem; margin: 0;'>บอกงานที่ไป หรืองบที่มี เดี๋ยว AI จัดกล้องที่ตรงใจให้เลย!</p>
         </div>
     """, unsafe_allow_html=True)
     st.divider()
     
-    # คำสั่ง AI (ปรับปรุงโครงสร้างคำตอบให้อ่านง่ายยิ่งขึ้น)
+    # คำสั่ง AI (จัดระเบียบโครงสร้างให้อ่านง่าย สบายตา)
     system_instruction = f"""
     คุณคือผู้เชี่ยวชาญด้านอุปกรณ์ของร้านเช่ากล้อง Lenslineup (ร้านอยู่ชั้น 12 อาคารเอเชีย ติด BTS ราชเทวี)
     หน้าที่ของคุณคือ แนะนำกล้องหรือมือถือที่เหมาะสมที่สุดให้กับลูกค้าตามความต้องการ
