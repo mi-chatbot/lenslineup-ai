@@ -115,7 +115,7 @@ if user_input := st.chat_input("บอกงานที่ต้องการ
     with st.chat_message("user"):
         st.markdown(user_input)
 
-    # เรียกใช้งาน Gemini AI พร้อมระบบลองใหม่ (Retry) ป้องกันเซิร์ฟเวอร์หนาแน่นและโควต้าเต็มชั่วคราว
+    # เรียกใช้งาน Gemini AI พร้อมระบบลองใหม่ (Retry) ป้องกันเซิร์ฟเวอร์หนาแน่น
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
         success = False
@@ -131,7 +131,7 @@ if user_input := st.chat_input("บอกงานที่ต้องการ
                 ]
 
                 response = client.models.generate_content(
-                    model="gemini-2.5-flash",
+                    model="gemini-3.6-flash",
                     contents=contents,
                     config={"system_instruction": system_instruction}
                 )
