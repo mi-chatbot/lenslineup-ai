@@ -6,7 +6,7 @@ from google import genai
 # การตั้งค่าหน้าเว็บ
 st.set_page_config(page_title="Lenslineup AI Guide", page_icon="📷", layout="centered")
 
-# ตกแต่ง CSS ธีม ดำ-ส้ม แบบ Premium Tech (พื้นหลังเข้ม, ตัวอักษรขาว, Accent สีส้ม, ขอบโค้งมน, มีเงา)
+# ตกแต่ง CSS ธีม ดำ-ส้ม แบบ Premium Tech
 st.markdown("""
     <style>
     /* ธีมหลักพื้นหลังแอป */
@@ -22,7 +22,7 @@ st.markdown("""
         letter-spacing: -0.5px;
     }
 
-    /* ปรับแต่งกล่องข้อความแชทของผู้ใช้ (User) ให้มีขอบมนและโทนส้มพรีเมียม */
+    /* ปรับแต่งกล่องข้อความแชทของผู้ใช้ (User) */
     div.stChatMessage[data-testid="stChatMessage-user"] {
         background-color: #1f1f1f;
         border: 1px solid #ff7a00;
@@ -65,7 +65,7 @@ st.markdown("""
 st.title("📷 ผู้ช่วยแนะนำกล้องเช่า (Lenslineup)")
 st.markdown("สวัสดีครับ! ยินดีต้อนรับสู่ผู้ช่วย AI จากร้าน Lenslineup อาคารเอเชีย (ติด BTS ราชเทวี) พิมพ์บอกงานหรือสเปกที่อยากได้เลยครับ!")
 
-# === ใส่ API Key ตรงนี้ (ดึงจาก Streamlit Secrets) ===
+# === ดึง API Key จาก Streamlit Secrets ===
 api_key = st.secrets["GEMINI_API_KEY"]
 
 # โหลดแคตตาล็อกกล้อง
@@ -115,7 +115,7 @@ if user_input := st.chat_input("บอกงานที่ต้องการ
     with st.chat_message("user"):
         st.markdown(user_input)
 
-    # เรียกใช้งาน Gemini AI พร้อมระบบลองใหม่ (Retry) ป้องกันเซิร์ฟเวอร์หนาแน่น
+    # เรียกใช้งาน Gemini AI พร้อมระบบลองใหม่ (Retry) ป้องกันเซิร์ฟเวอร์หนาแน่นและโควต้าเต็มชั่วคราว
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
         success = False
@@ -131,7 +131,7 @@ if user_input := st.chat_input("บอกงานที่ต้องการ
                 ]
 
                 response = client.models.generate_content(
-                    model="gemini-3.6-flash",
+                    model="gemini-1.5-flash",
                     contents=contents,
                     config={"system_instruction": system_instruction}
                 )
@@ -139,10 +139,11 @@ if user_input := st.chat_input("บอกงานที่ต้องการ
                 success = True
                 break
             except Exception as e:
-                if "503" in str(e) or "RESOURCE_EXHAUSTED" in str(e):
+                error_str = str(e)
+                if "503" in error_str or "429" in error_str or "RESOURCE_EXHAUSTED" in error_str:
                     if attempt < 2:
-                        message_placeholder.info(f"⏳ เซิร์ฟเวอร์กำลังหนาแน่น กำลังลองเชื่อมต่อใหม่อัตโนมัติ (ครั้งที่ {attempt + 1})...")
-                        time.sleep(2)
+                        message_placeholder.info(f"⏳ เซิร์ฟเวอร์กำลังหนาแน่นหรือติดโควต้าชั่วคราว กำลังลองเชื่อมต่อใหม่อัตโนมัติ (ครั้งที่ {attempt + 1})...")
+                        time.sleep(3)
                         continue
                 response_text = f"เกิดข้อผิดพลาดในการเชื่อมต่อกับ AI: {e}"
                 break
