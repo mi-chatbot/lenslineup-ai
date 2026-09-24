@@ -116,7 +116,7 @@ elif st.session_state.step == "chat":
     """, unsafe_allow_html=True)
     st.divider()
     
-    # คำสั่ง AI (จัดระเบียบโครงสร้างให้อ่านง่าย สบายตา)
+    # คำสั่ง AI
     system_instruction = f"""
     คุณคือผู้เชี่ยวชาญด้านอุปกรณ์ของร้านเช่ากล้อง Lenslineup (ร้านอยู่ชั้น 12 อาคารเอเชีย ติด BTS ราชเทวี)
     หน้าที่ของคุณคือ แนะนำกล้องหรือมือถือที่เหมาะสมที่สุดให้กับลูกค้าตามความต้องการ
@@ -157,7 +157,16 @@ elif st.session_state.step == "chat":
             message_placeholder = st.empty()
             success = False
             
-            with st.spinner("⏳ AI กำลังค้นหากล้องที่ตรงใจคุณที่สุด..."):
+            # --- เปลี่ยนจาก st.spinner มาใช้ st.status ---
+            with st.status("🤖 กำลังวิเคราะห์ความต้องการของคุณ...", expanded=True) as status:
+                st.write("🔍 ค้นหาอุปกรณ์ในคลัง Lenslineup...")
+                time.sleep(0.8) # หน่วงเวลาเล็กน้อยให้ดูเป็นธรรมชาติ
+                
+                st.write("⚖️ กำลังประเมินงบประมาณและรูปแบบการใช้งาน...")
+                time.sleep(0.8)
+                
+                st.write("💡 คัดเลือกรุ่นที่ตอบโจทย์ที่สุด...")
+                
                 for attempt in range(3):
                     try:
                         client = genai.Client(api_key=api_key)
@@ -166,17 +175,24 @@ elif st.session_state.step == "chat":
                             model="gemini-3.6-flash", contents=contents, config={"system_instruction": system_instruction}
                         )
                         success = True
+                        
+                        # อัปเดตสถานะเป็นสำเร็จ (สีเขียว) และพับกล่องเก็บ
+                        status.update(label="ค้นพบกล้องที่ตรงใจคุณแล้ว!", state="complete", expanded=False)
                         break
                     except Exception as e:
                         error_str = str(e)
                         if "429" in error_str or "503" in error_str or "RESOURCE_EXHAUSTED" in error_str:
                             if attempt < 2:
-                                message_placeholder.info(f"⏳ ระบบกำลังประมวลผล กรุณารอสักครู่ (กำลังลองใหม่ครั้งที่ {attempt + 1})...")
+                                st.write(f"⏳ เซิร์ฟเวอร์หนาแน่น กำลังลองเชื่อมต่อใหม่ (ครั้งที่ {attempt + 1})...")
                                 time.sleep(3)
                                 continue
+                        
+                        # อัปเดตสถานะเป็น Error (สีแดง) หากลองครบแล้วยังล่ม
+                        status.update(label="เกิดข้อผิดพลาดในการเชื่อมต่อ", state="error", expanded=False)
                         message_placeholder.error(f"เกิดข้อผิดพลาดในการเชื่อมต่อ: {e}")
                         break
             
+            # --- แสดงข้อความคำตอบเมื่อประมวลผลเสร็จ ---
             if success:
                 message_placeholder.markdown(response.text)
                 st.session_state.messages.append({"role": "assistant", "content": response.text})
