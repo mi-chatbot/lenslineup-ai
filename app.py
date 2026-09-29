@@ -9,7 +9,11 @@ st.set_page_config(page_title="Lenslineup AI Guide", page_icon="📸", layout="c
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap');
-    * { font-family: 'Prompt', sans-serif !important; }
+    
+    /* แก้ปัญหาตัวหนังสือ _arrow_right ซ้อน โดยเว้นการเปลี่ยนฟอนต์ของไอคอน Streamlit */
+    *:not(.material-symbols-rounded):not([data-testid="stIconMaterial"]):not(i) {
+        font-family: 'Prompt', sans-serif !important;
+    }
     
     /* ซ่อนเมนูและโลโก้ Streamlit ส่วนเกินเพื่อความสะอาด */
     header, #MainMenu, .viewerBadge_container__1QSob { visibility: hidden !important; display: none !important; }
@@ -40,7 +44,7 @@ st.markdown("""
     }
     .stButton>button:hover { background-color: #FF9933 !important; transform: translateY(-2px); }
 
-    /* ปรับแต่งปุ่มใน Sidebar ให้เป็นสีเทาเข้ม ไม่แย่งความสนใจ */
+    /* ปรับแต่งปุ่มใน Sidebar */
     [data-testid="stSidebar"] .stButton>button {
         background-color: transparent !important;
         color: inherit !important;
@@ -52,7 +56,7 @@ st.markdown("""
         color: #121212 !important;
     }
 
-    /* ปรับแต่งกล่องข้อความแชทให้อ่านง่าย สบายตา */
+    /* ปรับแต่งกล่องข้อความแชท */
     div.stChatMessage[data-testid="stChatMessage-user"] {
         border-left: 4px solid #FFB800; 
         border-radius: 12px; 
@@ -68,7 +72,7 @@ st.markdown("""
         line-height: 1.6;
     }
 
-    /* จัดระเบียบช่องพิมพ์แชทให้เด่นชัดและกลมกลืนกับระบบ */
+    /* จัดระเบียบช่องพิมพ์แชท */
     .stChatInputContainer {
         border: 2px solid #FFB800 !important; 
         border-radius: 16px !important; 
@@ -99,9 +103,10 @@ def go_to_chat(): st.session_state.step = "chat"
 # แถบเมนูด้านข้าง (Sidebar)
 # ==========================================
 with st.sidebar:
-    st.image("https://cdn-icons-png.flaticon.com/512/3225/3225134.png", width=60) # ไอคอนกล้อง
-    st.markdown("## 📸 Lenslineup Menu")
-    st.markdown("ผู้ช่วย AI ค้นหากล้องที่ตรงใจคุณ")
+    # เปลี่ยนไอคอนให้เป็นรูปกล้องเข้ากับธีม Lenslineup
+    st.markdown("<h1 style='text-align: center; font-size: 3.5rem; margin-bottom: 0;'>📸</h1>", unsafe_allow_html=True)
+    st.markdown("<h2 style='text-align: center; font-size: 1.3rem; margin-top: -10px;'>Lenslineup Menu</h2>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center;'>ผู้ช่วย AI ค้นหากล้องที่ตรงใจคุณ</p>", unsafe_allow_html=True)
     
     st.divider()
     
@@ -115,10 +120,10 @@ with st.sidebar:
     # ลูกเล่น Expander แนะนำไอเดียคำถาม
     with st.expander("💡 ไอเดียคำถาม (Prompt)"):
         st.markdown("""
-        ลองพิมพ์คำถามแบบนี้ดูสิ:
-        - *ไปคอนเสิร์ตราชมังฯ นั่งไกลมาก งบ 2,000*
+        **ลองพิมพ์แบบนี้ดูสิ:**
+        - *ไปคอนเสิร์ต นั่งไกลมาก งบ 2,000*
         - *อยากได้กล้องไปถ่าย Vlog ที่ทะเล*
-        - *รับงานถ่ายรูปรับปริญญา แนะนำกล้องตัวจบให้หน่อย*
+        - *หาอุปกรณ์รับงานถ่ายรูปรับปริญญา*
         - *หากล้อง Action Cam เอาไปดำน้ำ*
         """)
         
@@ -126,8 +131,7 @@ with st.sidebar:
     with st.expander("📍 ข้อมูลร้าน Lenslineup"):
         st.markdown("""
         **ที่ตั้ง:**  
-        ชั้น 12 อาคารเอเชีย  
-        (ติด BTS ราชเทวี)
+        ชั้น 12 อาคารเอเชีย (ติด BTS ราชเทวี)
         
         **เปิดบริการ:**  
         ทุกวัน 10:00 - 20:00 น.
@@ -166,7 +170,7 @@ elif st.session_state.step == "chat":
     """, unsafe_allow_html=True)
     st.divider()
     
-    # คำสั่ง AI 
+    # คำสั่ง AI
     system_instruction = f"""
     คุณคือผู้เชี่ยวชาญด้านอุปกรณ์ของร้านเช่ากล้อง Lenslineup (ร้านอยู่ชั้น 12 อาคารเอเชีย ติด BTS ราชเทวี)
     หน้าที่ของคุณคือ แนะนำกล้องหรือมือถือที่เหมาะสมที่สุดให้กับลูกค้าตามความต้องการ
@@ -192,6 +196,14 @@ elif st.session_state.step == "chat":
     if not st.session_state.messages:
         with st.chat_message("assistant", avatar="📸"):
             st.markdown("สวัสดีครับ! เอากล้องไปถ่ายแนวไหน เที่ยวที่ไหน หรือมีงบในใจเท่าไหร่ พิมพ์บอกมาได้เลยครับเดี๋ยวผมช่วยเลือกให้! 👇")
+            
+            # --- เพิ่มกล่องแนะนำคำสั่ง (Prompt Ideas) ในหน้าแชทให้เด่นชัด ---
+            st.info("""
+            💡 **ตัวอย่างคำแนะนำการสั่ง (Prompt) ที่คุณลองใช้ได้:**
+            - 🏖️ *อยากได้กล้องไปถ่าย Vlog ที่ทะเล เน้นพกพาง่าย*
+            - 🎤 *ไปคอนเสิร์ตราชมังฯ นั่งไกลมาก งบ 2,000 บาท*
+            - 🎓 *รับงานถ่ายรูปรับปริญญา แนะนำกล้องตัวจบให้หน่อย*
+            """)
 
     for msg in st.session_state.messages:
         avatar = "🧑‍💻" if msg["role"] == "user" else "📸"
