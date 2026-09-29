@@ -3,22 +3,22 @@ import time
 import streamlit as st
 from google import genai
 
-# === 1. การตั้งค่าหน้าเว็บและ CSS ให้ปรับตามธีมอุปกรณ์ (Responsive & System Theme) ===
+# === 1. การตั้งค่าหน้าเว็บและ CSS ===
 st.set_page_config(page_title="Lenslineup AI Guide", page_icon="📸", layout="centered", initial_sidebar_state="expanded")
 
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap');
     
-    /* แก้ปัญหาตัวหนังสือ _arrow_right ซ้อน โดยเว้นการเปลี่ยนฟอนต์ของไอคอน Streamlit */
+    /* แก้ปัญหาฟอนต์ไอคอนซ้อน */
     *:not(.material-symbols-rounded):not([data-testid="stIconMaterial"]):not(i) {
         font-family: 'Prompt', sans-serif !important;
     }
     
-    /* ซ่อนเมนูและโลโก้ Streamlit ส่วนเกินเพื่อความสะอาด */
-    header, #MainMenu, .viewerBadge_container__1QSob { visibility: hidden !important; display: none !important; }
+    /* ซ่อนเฉพาะเมนูจุด 3 จุด (MainMenu) แต่เก็บ Header ไว้เพื่อให้ปุ่มเปิด/ปิด Sidebar ยังทำงานได้ */
+    #MainMenu, .viewerBadge_container__1QSob { visibility: hidden !important; display: none !important; }
+    [data-testid="stHeader"] { background-color: transparent !important; }
     
-    /* ปรับระยะขอบหน้าจอสำหรับมือถือและเดสก์ท็อป */
     .block-container {
         padding-top: 2rem !important;
         padding-bottom: 7rem !important;
@@ -29,22 +29,22 @@ st.markdown("""
 
     h1, h2, h3 { color: #FFB800 !important; font-weight: 700; }
     
-    /* ตกแต่งปุ่มกดหน้าแรก */
+    /* ตกแต่งปุ่มกดทั่วไป */
     .stButton>button {
         background-color: #FFB800 !important;
         color: #121212 !important;
         border-radius: 12px !important;
         border: none !important;
-        font-weight: 700 !important;
-        font-size: 1.1rem !important;
-        padding: 12px 24px !important;
+        font-weight: 600 !important;
+        font-size: 1rem !important;
+        padding: 10px 15px !important;
         width: 100%;
         transition: 0.3s;
-        box-shadow: 0 4px 15px rgba(255, 184, 0, 0.3);
+        box-shadow: 0 4px 10px rgba(255, 184, 0, 0.2);
     }
     .stButton>button:hover { background-color: #FF9933 !important; transform: translateY(-2px); }
 
-    /* ปรับแต่งปุ่มใน Sidebar */
+    /* ปรับแต่งปุ่มใน Sidebar ให้ดูโปร่งใส ไม่แย่งซีน */
     [data-testid="stSidebar"] .stButton>button {
         background-color: transparent !important;
         color: inherit !important;
@@ -56,23 +56,20 @@ st.markdown("""
         color: #121212 !important;
     }
 
-    /* ปรับแต่งกล่องข้อความแชท */
+    /* กล่องข้อความแชท */
     div.stChatMessage[data-testid="stChatMessage-user"] {
         border-left: 4px solid #FFB800; 
         border-radius: 12px; 
         padding: 15px; 
         margin-bottom: 15px;
-        font-size: 1.02rem;
     }
     div.stChatMessage[data-testid="stChatMessage-assistant"] {
         border-radius: 12px; 
         padding: 15px; 
         margin-bottom: 15px;
-        font-size: 1.02rem;
         line-height: 1.6;
     }
 
-    /* จัดระเบียบช่องพิมพ์แชท */
     .stChatInputContainer {
         border: 2px solid #FFB800 !important; 
         border-radius: 16px !important; 
@@ -82,7 +79,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# === 2. โหลดข้อมูล API และ แคตตาล็อก ===
+# === 2. โหลดข้อมูล ===
 api_key = st.secrets["GEMINI_API_KEY"]
 try:
     with open("cameras.json", "r", encoding="utf-8") as f:
@@ -91,51 +88,34 @@ except FileNotFoundError:
     st.error("ไม่พบไฟล์ 'cameras.json'")
     st.stop()
 
-# === 3. ระบบจัดการหน้า (Home -> Chat) ===
+# === 3. ระบบจัดการหน้าและสถานะ ===
 if "step" not in st.session_state:
     st.session_state.step = "home"
 if "messages" not in st.session_state:
     st.session_state.messages = []
+if "quick_prompt" not in st.session_state:
+    st.session_state.quick_prompt = None
 
 def go_to_chat(): st.session_state.step = "chat"
+def set_quick_prompt(prompt_text): st.session_state.quick_prompt = prompt_text
 
 # ==========================================
 # แถบเมนูด้านข้าง (Sidebar)
 # ==========================================
 with st.sidebar:
-    # เปลี่ยนไอคอนให้เป็นรูปกล้องเข้ากับธีม Lenslineup
     st.markdown("<h1 style='text-align: center; font-size: 3.5rem; margin-bottom: 0;'>📸</h1>", unsafe_allow_html=True)
     st.markdown("<h2 style='text-align: center; font-size: 1.3rem; margin-top: -10px;'>Lenslineup Menu</h2>", unsafe_allow_html=True)
     st.markdown("<p style='text-align: center;'>ผู้ช่วย AI ค้นหากล้องที่ตรงใจคุณ</p>", unsafe_allow_html=True)
     
     st.divider()
-    
-    # ปุ่มเริ่มแชทใหม่
     if st.button("🔄 เริ่มแชทใหม่ (Clear Chat)"):
         st.session_state.messages = []
+        st.session_state.quick_prompt = None
         st.rerun()
         
     st.divider()
-    
-    # ลูกเล่น Expander แนะนำไอเดียคำถาม
-    with st.expander("💡 ไอเดียคำถาม (Prompt)"):
-        st.markdown("""
-        **ลองพิมพ์แบบนี้ดูสิ:**
-        - *ไปคอนเสิร์ต นั่งไกลมาก งบ 2,000*
-        - *อยากได้กล้องไปถ่าย Vlog ที่ทะเล*
-        - *หาอุปกรณ์รับงานถ่ายรูปรับปริญญา*
-        - *หากล้อง Action Cam เอาไปดำน้ำ*
-        """)
-        
-    # ลูกเล่น Expander ข้อมูลร้าน
     with st.expander("📍 ข้อมูลร้าน Lenslineup"):
-        st.markdown("""
-        **ที่ตั้ง:**  
-        ชั้น 12 อาคารเอเชีย (ติด BTS ราชเทวี)
-        
-        **เปิดบริการ:**  
-        ทุกวัน 10:00 - 20:00 น.
-        """)
+        st.markdown("**ที่ตั้ง:**\nชั้น 12 อาคารเอเชีย (ติด BTS ราชเทวี)\n\n**เปิดบริการ:**\nทุกวัน 10:00 - 20:00 น.")
 
 # ==========================================
 # หน้าที่ 1: หน้าแรก (Home)
@@ -170,50 +150,60 @@ elif st.session_state.step == "chat":
     """, unsafe_allow_html=True)
     st.divider()
     
-    # คำสั่ง AI
     system_instruction = f"""
     คุณคือผู้เชี่ยวชาญด้านอุปกรณ์ของร้านเช่ากล้อง Lenslineup (ร้านอยู่ชั้น 12 อาคารเอเชีย ติด BTS ราชเทวี)
     หน้าที่ของคุณคือ แนะนำกล้องหรือมือถือที่เหมาะสมที่สุดให้กับลูกค้าตามความต้องการ
 
-    กฎสำคัญในการจัดรูปแบบคำตอบ (ต้องทำตามอย่างเคร่งครัดเพื่อให้หน้าเว็บอ่านง่าย):
+    กฎสำคัญในการจัดรูปแบบคำตอบ:
     1. แนะนำเฉพาะรุ่นที่มีอยู่ในฐานข้อมูลด้านล่างนี้เท่านั้น ห้ามมั่วชื่อรุ่นเด็ดขาด
-    2. บังคับให้จัดรูปแบบคำตอบโดย **ต้องขึ้นบรรทัดใหม่และใช้ Bullet Point (เครื่องหมาย -)** ในแต่ละหัวข้อย่อย เพื่อไม่ให้ข้อความติดกันเป็นบรรทัดเดียว ให้ใช้โครงสร้างเป๊ะๆ ตามนี้:
+    2. บังคับให้จัดรูปแบบคำตอบโดย ต้องขึ้นบรรทัดใหม่และใช้ Bullet Point (-) ในแต่ละหัวข้อย่อย:
 
        (ทักทายและเกริ่นนำสั้นๆ อย่างเป็นกันเอง)
        
        📸 **[ชื่อรุ่นกล้อง/มือถือที่แนะนำ]**
        - ✨ **จุดเด่น:** [อธิบายสั้นๆ ตรงประเด็นว่าทำไมถึงตอบโจทย์ลูกค้า]
        - 💰 **ราคาเช่า:** [ราคา] บาท/วัน
-       - 👉 **[คลิกเพื่อดูรายละเอียดและจองคิว](ใส่ URL ของสินค้านั้น หากไม่มีให้ใส่ https://www.lenslineup.com)**
+       - 👉 **[คลิกเพื่อดูรายละเอียดและจองคิว](ใส่ URL หากไม่มีใส่ https://www.lenslineup.com)**
 
-    3. หากแนะนำหลายรุ่น ให้เว้นบรรทัดว่าง 1 บรรทัดระหว่างรุ่น เพื่อให้ดูสะอาดตา
-    4. ปิดท้ายด้วยคำถามสั้นๆ 1 ประโยค เพื่อให้ลูกค้าพูดคุยต่อ (เช่น ถามเรื่องงบ, ถามวันที่จะใช้งาน)
+    3. เว้นบรรทัดว่าง 1 บรรทัดระหว่างรุ่น
+    4. ปิดท้ายด้วยคำถามสั้นๆ 1 ประโยค เพื่อให้ลูกค้าพูดคุยต่อ
 
     รายการกล้องของร้านที่มีให้เช่า:
     {json.dumps(camera_catalog, ensure_ascii=False, indent=2)}
     """
 
+    # ถ้ายังไม่มีประวัติการคุย ให้โชว์คำทักทายและ "ปุ่มคำสั่งด่วน"
     if not st.session_state.messages:
         with st.chat_message("assistant", avatar="📸"):
             st.markdown("สวัสดีครับ! เอากล้องไปถ่ายแนวไหน เที่ยวที่ไหน หรือมีงบในใจเท่าไหร่ พิมพ์บอกมาได้เลยครับเดี๋ยวผมช่วยเลือกให้! 👇")
-            
-            # --- เพิ่มกล่องแนะนำคำสั่ง (Prompt Ideas) ในหน้าแชทให้เด่นชัด ---
-            st.info("""
-            💡 **ตัวอย่างคำแนะนำการสั่ง (Prompt) ที่คุณลองใช้ได้:**
-            - 🏖️ *อยากได้กล้องไปถ่าย Vlog ที่ทะเล เน้นพกพาง่าย*
-            - 🎤 *ไปคอนเสิร์ตราชมังฯ นั่งไกลมาก งบ 2,000 บาท*
-            - 🎓 *รับงานถ่ายรูปรับปริญญา แนะนำกล้องตัวจบให้หน่อย*
-            """)
+        
+        st.write("")
+        st.markdown("<p style='text-align: center; color: gray; font-size: 0.9rem;'>💡 หรือเลือกคำถามด่วนด้านล่างนี้</p>", unsafe_allow_html=True)
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.button("🏖️ ถ่าย Vlog ที่ทะเล", on_click=set_quick_prompt, args=("อยากได้กล้องไปถ่าย Vlog ที่ทะเล เน้นพกพาง่าย",))
+        with col2:
+            st.button("🎤 คอนเสิร์ต นั่งไกล", on_click=set_quick_prompt, args=("ไปคอนเสิร์ตราชมังฯ นั่งไกลมาก งบ 2,000 บาท",))
+        with col3:
+            st.button("🎓 รับงานรับปริญญา", on_click=set_quick_prompt, args=("รับงานถ่ายรูปรับปริญญา แนะนำกล้องตัวจบให้หน่อย",))
 
+    # แสดงประวัติการสนทนา
     for msg in st.session_state.messages:
         avatar = "🧑‍💻" if msg["role"] == "user" else "📸"
         with st.chat_message(msg["role"], avatar=avatar):
             st.markdown(msg["content"])
 
-    if user_input := st.chat_input("พิมพ์บอกงานที่ต้องการนำกล้องไปใช้ หรือสเปก/งบประมาณ..."):
-        st.session_state.messages.append({"role": "user", "content": user_input})
+    # รับค่าจากช่องพิมพ์ (หรือรับค่าจากปุ่มคำสั่งด่วนที่ถูกกด)
+    user_input = st.chat_input("พิมพ์บอกงานที่ต้องการนำกล้องไปใช้ หรือสเปก/งบประมาณ...")
+    final_prompt = user_input or st.session_state.quick_prompt
+
+    if final_prompt:
+        # เคลียร์ค่า quick_prompt ทิ้งหลังจากดึงมาใช้แล้ว
+        st.session_state.quick_prompt = None
+        
+        st.session_state.messages.append({"role": "user", "content": final_prompt})
         with st.chat_message("user", avatar="🧑‍💻"):
-            st.markdown(user_input)
+            st.markdown(final_prompt)
 
         with st.chat_message("assistant", avatar="📸"):
             message_placeholder = st.empty()
