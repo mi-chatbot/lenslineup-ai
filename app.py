@@ -29,15 +29,15 @@ st.markdown("""
 
     h1, h2, h3 { color: #FFB800 !important; font-weight: 700; }
     
-    /* ตกแต่งปุ่มกดทั่วไปให้สวยงามและมนขึ้น */
+    /* ตกแต่งปุ่มกดทั่วไป */
     .stButton>button {
         background-color: #FFB800 !important;
         color: #121212 !important;
-        border-radius: 16px !important;
+        border-radius: 12px !important;
         border: none !important;
         font-weight: 600 !important;
-        font-size: 0.95rem !important;
-        padding: 8px 10px !important;
+        font-size: 1rem !important;
+        padding: 10px 15px !important;
         width: 100%;
         transition: 0.3s;
         box-shadow: 0 4px 10px rgba(255, 184, 0, 0.2);
@@ -93,11 +93,8 @@ if "step" not in st.session_state:
     st.session_state.step = "home"
 if "messages" not in st.session_state:
     st.session_state.messages = []
-if "quick_prompt" not in st.session_state:
-    st.session_state.quick_prompt = None
 
 def go_to_chat(): st.session_state.step = "chat"
-def set_quick_prompt(prompt_text): st.session_state.quick_prompt = prompt_text
 
 # ==========================================
 # แถบเมนูด้านข้าง (Sidebar)
@@ -110,10 +107,18 @@ with st.sidebar:
     st.divider()
     if st.button("🔄 เริ่มแชทใหม่ (Clear Chat)"):
         st.session_state.messages = []
-        st.session_state.quick_prompt = None
         st.rerun()
         
     st.divider()
+    with st.expander("💡 ไอเดียคำถาม (Prompt)"):
+        st.markdown("""
+        **ลองพิมพ์แบบนี้ดูสิ:**
+        - *ไปคอนเสิร์ต นั่งไกลมาก งบ 2,000*
+        - *อยากได้กล้องไปถ่าย Vlog ที่ทะเล*
+        - *หาอุปกรณ์รับงานถ่ายรูปรับปริญญา*
+        - *หากล้อง Action Cam เอาไปดำน้ำ*
+        """)
+        
     with st.expander("📍 ข้อมูลร้าน Lenslineup"):
         st.markdown("**ที่ตั้ง:**\nชั้น 12 อาคารเอเชีย (ติด BTS ราชเทวี)\n\n**เปิดบริการ:**\nทุกวัน 10:00 - 20:00 น.")
 
@@ -172,25 +177,10 @@ elif st.session_state.step == "chat":
     {json.dumps(camera_catalog, ensure_ascii=False, indent=2)}
     """
 
-    # ถ้ายังไม่มีประวัติการคุย ให้โชว์คำทักทายและ "ปุ่มคำสั่งด่วน" ที่ถูกดันลงไปด้านล่าง
+    # ทักทายเริ่มต้นแบบคลีนๆ
     if not st.session_state.messages:
         with st.chat_message("assistant", avatar="📸"):
             st.markdown("สวัสดีครับ! เอากล้องไปถ่ายแนวไหน เที่ยวที่ไหน หรือมีงบในใจเท่าไหร่ พิมพ์บอกมาได้เลยครับเดี๋ยวผมช่วยเลือกให้! 👇")
-        
-        # --- ใช้กล่องความสูง (Space) ดันปุ่มลงไปให้ติดกับช่องพิมพ์แชท ---
-        st.markdown("<div style='min-height: 35vh;'></div>", unsafe_allow_html=True)
-        
-        # --- ขยับข้อความและจัดระยะปุ่มให้ชิดกัน ---
-        st.markdown("<p style='text-align: center; color: gray; font-size: 0.9rem; margin-bottom: 5px;'>💡 หรือเลือกคำถามด่วนด้านล่างนี้</p>", unsafe_allow_html=True)
-        
-        # ใช้ gap="small" และเว้นขอบซ้ายขวาเล็กน้อยเพื่อให้ปุ่มถูกบีบเข้าหากันตรงกลาง
-        _, col1, col2, col3, _ = st.columns([0.15, 1, 1, 1, 0.15], gap="small")
-        with col1:
-            st.button("🏖️ ถ่าย Vlog ที่ทะเล", on_click=set_quick_prompt, args=("อยากได้กล้องไปถ่าย Vlog ที่ทะเล เน้นพกพาง่าย",))
-        with col2:
-            st.button("🎤 คอนเสิร์ต นั่งไกล", on_click=set_quick_prompt, args=("ไปคอนเสิร์ตราชมังฯ นั่งไกลมาก งบ 2,000 บาท",))
-        with col3:
-            st.button("🎓 รับงานรับปริญญา", on_click=set_quick_prompt, args=("รับงานถ่ายรูปรับปริญญา แนะนำกล้องตัวจบให้หน่อย",))
 
     # แสดงประวัติการสนทนา
     for msg in st.session_state.messages:
@@ -198,17 +188,11 @@ elif st.session_state.step == "chat":
         with st.chat_message(msg["role"], avatar=avatar):
             st.markdown(msg["content"])
 
-    # รับค่าจากช่องพิมพ์ (หรือรับค่าจากปุ่มคำสั่งด่วนที่ถูกกด)
-    user_input = st.chat_input("พิมพ์บอกงานที่ต้องการนำกล้องไปใช้ หรือสเปก/งบประมาณ...")
-    final_prompt = user_input or st.session_state.quick_prompt
-
-    if final_prompt:
-        # เคลียร์ค่า quick_prompt ทิ้งหลังจากดึงมาใช้แล้ว
-        st.session_state.quick_prompt = None
-        
-        st.session_state.messages.append({"role": "user", "content": final_prompt})
+    # รับค่าจากช่องพิมพ์
+    if user_input := st.chat_input("พิมพ์บอกงานที่ต้องการนำกล้องไปใช้ หรือสเปก/งบประมาณ..."):
+        st.session_state.messages.append({"role": "user", "content": user_input})
         with st.chat_message("user", avatar="🧑‍💻"):
-            st.markdown(final_prompt)
+            st.markdown(user_input)
 
         with st.chat_message("assistant", avatar="📸"):
             message_placeholder = st.empty()
