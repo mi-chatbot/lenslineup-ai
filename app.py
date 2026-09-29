@@ -44,7 +44,7 @@ st.markdown("""
     }
     .stButton>button:hover { background-color: #FF9933 !important; transform: translateY(-2px); }
 
-    /* ปรับแต่งปุ่มใน Sidebar ให้โปร่งใส */
+    /* ปรับแต่งปุ่มใน Sidebar */
     [data-testid="stSidebar"] .stButton>button {
         background-color: transparent !important;
         color: inherit !important;
@@ -76,6 +76,25 @@ st.markdown("""
         padding: 4px 12px;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     }
+
+    /* สไตล์สำหรับกล่องประวัติแชทให้เหมือน Gemini */
+    .history-item {
+        padding: 10px;
+        border-radius: 8px;
+        background-color: rgba(255, 184, 0, 0.1);
+        margin-bottom: 8px;
+        font-size: 0.9rem;
+        color: inherit;
+        border-left: 3px solid #FFB800;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        transition: 0.2s;
+    }
+    .history-item:hover {
+        background-color: rgba(255, 184, 0, 0.3);
+        cursor: pointer;
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -105,20 +124,26 @@ with st.sidebar:
     st.markdown("<p style='text-align: center;'>ผู้ช่วย AI ค้นหากล้องที่ตรงใจคุณ</p>", unsafe_allow_html=True)
     
     st.divider()
-    if st.button("🔄 เริ่มแชทใหม่ (Clear Chat)"):
+    
+    # เปลี่ยนชื่อปุ่มให้เหมือนแอป AI ของจริง
+    if st.button("➕ แชทใหม่ (New Chat)"):
         st.session_state.messages = []
         st.rerun()
         
+    # --- ส่วนแสดงประวัติแชท (Chat History) ---
+    st.markdown("<h3 style='font-size: 1.1rem; margin-top: 15px;'>🕒 ประวัติแชทล่าสุด</h3>", unsafe_allow_html=True)
+    
+    # ดึงเฉพาะข้อความที่ลูกค้าพิมพ์มาแสดง
+    user_history = [m["content"] for m in st.session_state.messages if m["role"] == "user"]
+    
+    if not user_history:
+        st.markdown("<p style='color: gray; font-size: 0.85rem; text-align: center; margin-top: 10px;'>ยังไม่มีประวัติการสนทนา</p>", unsafe_allow_html=True)
+    else:
+        # แสดงย้อนหลังเอาแค่ 6 ข้อความล่าสุด จะได้ไม่ล้นหน้าจอ
+        for msg in reversed(user_history[-6:]):
+            st.markdown(f"<div class='history-item'>💬 {msg}</div>", unsafe_allow_html=True)
+            
     st.divider()
-    with st.expander("💡 ไอเดียคำถาม (Prompt)"):
-        st.markdown("""
-        **ลองพิมพ์แบบนี้ดูสิ:**
-        - *ไปคอนเสิร์ต นั่งไกลมาก งบ 2,000*
-        - *อยากได้กล้องไปถ่าย Vlog ที่ทะเล*
-        - *หาอุปกรณ์รับงานถ่ายรูปรับปริญญา*
-        - *หากล้อง Action Cam เอาไปดำน้ำ*
-        """)
-        
     with st.expander("📍 ข้อมูลร้าน Lenslineup"):
         st.markdown("**ที่ตั้ง:**\nชั้น 12 อาคารเอเชีย (ติด BTS ราชเทวี)\n\n**เปิดบริการ:**\nทุกวัน 10:00 - 20:00 น.")
 
@@ -177,12 +202,12 @@ elif st.session_state.step == "chat":
     {json.dumps(camera_catalog, ensure_ascii=False, indent=2)}
     """
 
-    # ทักทายเริ่มต้นแบบคลีนๆ
+    # ทักทายเริ่มต้น
     if not st.session_state.messages:
         with st.chat_message("assistant", avatar="📸"):
             st.markdown("สวัสดีครับ! เอากล้องไปถ่ายแนวไหน เที่ยวที่ไหน หรือมีงบในใจเท่าไหร่ พิมพ์บอกมาได้เลยครับเดี๋ยวผมช่วยเลือกให้! 👇")
 
-    # แสดงประวัติการสนทนา
+    # แสดงประวัติการสนทนาในช่องแชทหลัก
     for msg in st.session_state.messages:
         avatar = "🧑‍💻" if msg["role"] == "user" else "📸"
         with st.chat_message(msg["role"], avatar=avatar):
@@ -221,3 +246,6 @@ elif st.session_state.step == "chat":
             if success:
                 message_placeholder.markdown(response.text)
                 st.session_state.messages.append({"role": "assistant", "content": response.text})
+                
+                # รีรันหน้าเว็บเพื่อให้ข้อความไปอัปเดตบนแถบเมนูด้านข้าง (ประวัติแชท) ด้วย
+                st.rerun()
