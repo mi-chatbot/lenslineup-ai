@@ -4,7 +4,7 @@ import streamlit as st
 from google import genai
 
 # === 1. การตั้งค่าหน้าเว็บและ CSS ให้ปรับตามธีมอุปกรณ์ (Responsive & System Theme) ===
-st.set_page_config(page_title="Lenslineup AI Guide", page_icon="📸", layout="centered")
+st.set_page_config(page_title="Lenslineup AI Guide", page_icon="📸", layout="centered", initial_sidebar_state="expanded")
 
 st.markdown("""
     <style>
@@ -39,6 +39,18 @@ st.markdown("""
         box-shadow: 0 4px 15px rgba(255, 184, 0, 0.3);
     }
     .stButton>button:hover { background-color: #FF9933 !important; transform: translateY(-2px); }
+
+    /* ปรับแต่งปุ่มใน Sidebar ให้เป็นสีเทาเข้ม ไม่แย่งความสนใจ */
+    [data-testid="stSidebar"] .stButton>button {
+        background-color: transparent !important;
+        color: inherit !important;
+        border: 1px solid #FFB800 !important;
+        box-shadow: none;
+    }
+    [data-testid="stSidebar"] .stButton>button:hover {
+        background-color: #FFB800 !important;
+        color: #121212 !important;
+    }
 
     /* ปรับแต่งกล่องข้อความแชทให้อ่านง่าย สบายตา */
     div.stChatMessage[data-testid="stChatMessage-user"] {
@@ -84,6 +96,44 @@ if "messages" not in st.session_state:
 def go_to_chat(): st.session_state.step = "chat"
 
 # ==========================================
+# แถบเมนูด้านข้าง (Sidebar)
+# ==========================================
+with st.sidebar:
+    st.image("https://cdn-icons-png.flaticon.com/512/3225/3225134.png", width=60) # ไอคอนกล้อง
+    st.markdown("## 📸 Lenslineup Menu")
+    st.markdown("ผู้ช่วย AI ค้นหากล้องที่ตรงใจคุณ")
+    
+    st.divider()
+    
+    # ปุ่มเริ่มแชทใหม่
+    if st.button("🔄 เริ่มแชทใหม่ (Clear Chat)"):
+        st.session_state.messages = []
+        st.rerun()
+        
+    st.divider()
+    
+    # ลูกเล่น Expander แนะนำไอเดียคำถาม
+    with st.expander("💡 ไอเดียคำถาม (Prompt)"):
+        st.markdown("""
+        ลองพิมพ์คำถามแบบนี้ดูสิ:
+        - *ไปคอนเสิร์ตราชมังฯ นั่งไกลมาก งบ 2,000*
+        - *อยากได้กล้องไปถ่าย Vlog ที่ทะเล*
+        - *รับงานถ่ายรูปรับปริญญา แนะนำกล้องตัวจบให้หน่อย*
+        - *หากล้อง Action Cam เอาไปดำน้ำ*
+        """)
+        
+    # ลูกเล่น Expander ข้อมูลร้าน
+    with st.expander("📍 ข้อมูลร้าน Lenslineup"):
+        st.markdown("""
+        **ที่ตั้ง:**  
+        ชั้น 12 อาคารเอเชีย  
+        (ติด BTS ราชเทวี)
+        
+        **เปิดบริการ:**  
+        ทุกวัน 10:00 - 20:00 น.
+        """)
+
+# ==========================================
 # หน้าที่ 1: หน้าแรก (Home)
 # ==========================================
 if st.session_state.step == "home":
@@ -116,7 +166,7 @@ elif st.session_state.step == "chat":
     """, unsafe_allow_html=True)
     st.divider()
     
-    # คำสั่ง AI (จัดระเบียบโครงสร้างให้อ่านง่าย สบายตา)
+    # คำสั่ง AI 
     system_instruction = f"""
     คุณคือผู้เชี่ยวชาญด้านอุปกรณ์ของร้านเช่ากล้อง Lenslineup (ร้านอยู่ชั้น 12 อาคารเอเชีย ติด BTS ราชเทวี)
     หน้าที่ของคุณคือ แนะนำกล้องหรือมือถือที่เหมาะสมที่สุดให้กับลูกค้าตามความต้องการ
