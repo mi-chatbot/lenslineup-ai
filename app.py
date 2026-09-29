@@ -15,7 +15,7 @@ st.markdown("""
         font-family: 'Prompt', sans-serif !important;
     }
     
-    /* ซ่อนเฉพาะเมนูจุด 3 จุด (MainMenu) แต่เก็บ Header ไว้เพื่อให้ปุ่มเปิด/ปิด Sidebar ยังทำงานได้ */
+    /* ซ่อนเฉพาะเมนูจุด 3 จุด (MainMenu) */
     #MainMenu, .viewerBadge_container__1QSob { visibility: hidden !important; display: none !important; }
     [data-testid="stHeader"] { background-color: transparent !important; }
     
@@ -29,22 +29,22 @@ st.markdown("""
 
     h1, h2, h3 { color: #FFB800 !important; font-weight: 700; }
     
-    /* ตกแต่งปุ่มกดทั่วไป */
+    /* ตกแต่งปุ่มกดทั่วไปให้สวยงามและมนขึ้น */
     .stButton>button {
         background-color: #FFB800 !important;
         color: #121212 !important;
-        border-radius: 12px !important;
+        border-radius: 16px !important;
         border: none !important;
         font-weight: 600 !important;
-        font-size: 1rem !important;
-        padding: 10px 15px !important;
+        font-size: 0.95rem !important;
+        padding: 8px 10px !important;
         width: 100%;
         transition: 0.3s;
         box-shadow: 0 4px 10px rgba(255, 184, 0, 0.2);
     }
     .stButton>button:hover { background-color: #FF9933 !important; transform: translateY(-2px); }
 
-    /* ปรับแต่งปุ่มใน Sidebar ให้ดูโปร่งใส ไม่แย่งซีน */
+    /* ปรับแต่งปุ่มใน Sidebar ให้โปร่งใส */
     [data-testid="stSidebar"] .stButton>button {
         background-color: transparent !important;
         color: inherit !important;
@@ -172,14 +172,19 @@ elif st.session_state.step == "chat":
     {json.dumps(camera_catalog, ensure_ascii=False, indent=2)}
     """
 
-    # ถ้ายังไม่มีประวัติการคุย ให้โชว์คำทักทายและ "ปุ่มคำสั่งด่วน"
+    # ถ้ายังไม่มีประวัติการคุย ให้โชว์คำทักทายและ "ปุ่มคำสั่งด่วน" ที่ถูกดันลงไปด้านล่าง
     if not st.session_state.messages:
         with st.chat_message("assistant", avatar="📸"):
             st.markdown("สวัสดีครับ! เอากล้องไปถ่ายแนวไหน เที่ยวที่ไหน หรือมีงบในใจเท่าไหร่ พิมพ์บอกมาได้เลยครับเดี๋ยวผมช่วยเลือกให้! 👇")
         
-        st.write("")
-        st.markdown("<p style='text-align: center; color: gray; font-size: 0.9rem;'>💡 หรือเลือกคำถามด่วนด้านล่างนี้</p>", unsafe_allow_html=True)
-        col1, col2, col3 = st.columns(3)
+        # --- ใช้กล่องความสูง (Space) ดันปุ่มลงไปให้ติดกับช่องพิมพ์แชท ---
+        st.markdown("<div style='min-height: 35vh;'></div>", unsafe_allow_html=True)
+        
+        # --- ขยับข้อความและจัดระยะปุ่มให้ชิดกัน ---
+        st.markdown("<p style='text-align: center; color: gray; font-size: 0.9rem; margin-bottom: 5px;'>💡 หรือเลือกคำถามด่วนด้านล่างนี้</p>", unsafe_allow_html=True)
+        
+        # ใช้ gap="small" และเว้นขอบซ้ายขวาเล็กน้อยเพื่อให้ปุ่มถูกบีบเข้าหากันตรงกลาง
+        _, col1, col2, col3, _ = st.columns([0.15, 1, 1, 1, 0.15], gap="small")
         with col1:
             st.button("🏖️ ถ่าย Vlog ที่ทะเล", on_click=set_quick_prompt, args=("อยากได้กล้องไปถ่าย Vlog ที่ทะเล เน้นพกพาง่าย",))
         with col2:
